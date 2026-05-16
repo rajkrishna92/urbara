@@ -114,7 +114,7 @@
 
     /* Hero Section */
     .hero-section {
-      height: calc(100vh - 110px); /* Exact remaining height after header */
+      height: calc(100dvh - 80px); /* Exact remaining height after header */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -123,6 +123,7 @@
       padding: 0 24px;
       text-align: center;
       background: radial-gradient(circle at 50% 30%, rgba(56, 239, 125, 0.05) 0%, transparent 60%);
+      overflow: hidden;
     }
 
     /* Ambient Background Glow */
@@ -278,6 +279,20 @@
 
       .hero-logo {
         width: 260px;
+      }
+
+      .hero-section {
+        height: calc(100dvh - 70px);
+      }
+
+      .hero-desc {
+        font-size: 15px;
+        margin-bottom: 12px;
+      }
+
+      .hero-pill {
+        font-size: 11px;
+        padding: 5px 10px;
       }
     }
 
