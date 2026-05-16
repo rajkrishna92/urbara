@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -91,9 +91,10 @@
     }
 
     .page-title h1 {
-      font-size: 22px;
+      font-size: clamp(12px, 4.5vw, 22px);
       font-weight: 800;
       color: #fff;
+      white-space: nowrap;
     }
 
     .page-title p {
@@ -348,7 +349,53 @@
       height: 10px;
       border-radius: 50%;
     }
-  @media(max-width:768px){.hero{height:auto;object-fit:contain;}}</style>
+    @media (max-width: 768px) {
+      .hero { height: auto; object-fit: contain; }
+      .row {
+        flex-direction: column;
+      }
+      .layer-label {
+        writing-mode: horizontal-tb;
+        width: 100%;
+        margin-bottom: 12px;
+        font-size: 11px;
+      }
+      .nodes {
+        flex-wrap: wrap;
+        padding: 0 16px;
+      }
+      .node {
+        flex: 1 1 calc(50% - 10px);
+        min-width: 130px;
+        max-width: none;
+      }
+      .arrow-row {
+        padding: 16px 0;
+      }
+      .arrow-spacer {
+        display: none;
+      }
+      .arrows {
+        gap: 0;
+      }
+      .arr {
+        display: none;
+      }
+      .arr:first-child {
+        display: block;
+        font-size: 24px;
+      }
+      .section-heading {
+        padding-left: 0;
+        margin-top: 24px;
+        font-size: 12px;
+      }
+      .rev-callout {
+        margin: 16px 16px 0;
+        gap: 16px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -363,7 +410,7 @@
 
   <!-- TITLE -->
   <div class="page-title">
-    <h1>URBARA | End-to-End Business Process Flow</h1>
+    <h1>End-to-End Business Process Flow</h1>
     <p>From fertile soil intelligence to farmer prosperity &amp; revenue generation</p>
   </div>
 
