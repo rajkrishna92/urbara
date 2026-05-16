@@ -8,11 +8,12 @@ const headerHTML = `
           <div class="ur-hdr-tag">Rooted in Science · Backed by AI</div>
         </div>
       </a>
+      <button class="ur-hdr-toggle" type="button" aria-label="Open menu">☰</button>
       <div class="ur-hdr-menu">
         <a href="index.html" class="ur-hdr-link" data-nav="home">Home</a>
-        
         <div class="ur-hdr-dropdown">
           <a href="urbara_business_model.html" class="ur-hdr-link" data-nav="business">Business Model <span class="caret">▼</span></a>
+          <button type="button" class="ur-hdr-submenu-toggle" aria-expanded="false" aria-label="Toggle Business Model submenu">▾</button>
           <div class="ur-hdr-submenu">
             <a href="urbara_value_propositions.html">Value Propositions</a>
             <a href="urbara_customer_segments.html">Customer Segments</a>
@@ -25,7 +26,6 @@ const headerHTML = `
             <a href="urbara_channels.html">Channels</a>
           </div>
         </div>
-
         <a href="urbara_process_flow.html" class="ur-hdr-link" data-nav="process">Process Flow</a>
         <a href="urbara_team.html" class="ur-hdr-link" data-nav="team">Team</a>
         <a href="urbara_contact.html" class="ur-hdr-link" data-nav="contact">Contact</a>
@@ -94,5 +94,47 @@ document.addEventListener("DOMContentLoaded", () => {
     
     if (activeLink) {
         activeLink.classList.add('active');
+    }
+
+    const headerToggle = document.querySelector('.ur-hdr-toggle');
+    const headerMenu = document.querySelector('.ur-hdr-menu');
+
+    const closeOpenSubmenus = () => {
+        document.querySelectorAll('.ur-hdr-dropdown.open').forEach(dropdown => {
+            dropdown.classList.remove('open');
+            const toggleButton = dropdown.querySelector('.ur-hdr-submenu-toggle');
+            if (toggleButton) {
+                toggleButton.setAttribute('aria-expanded', 'false');
+            }
+        });
+    };
+
+    if (headerToggle && headerMenu) {
+        headerToggle.addEventListener('click', () => {
+            const isOpen = headerMenu.classList.toggle('open');
+            headerToggle.classList.toggle('open', isOpen);
+            if (!isOpen) {
+                closeOpenSubmenus();
+            }
+        });
+
+        document.addEventListener('click', (event) => {
+            const target = event.target;
+            if (!headerMenu.contains(target) && !headerToggle.contains(target)) {
+                headerMenu.classList.remove('open');
+                headerToggle.classList.remove('open');
+                closeOpenSubmenus();
+            }
+        });
+
+        document.querySelectorAll('.ur-hdr-submenu-toggle').forEach((button) => {
+            const dropdown = button.closest('.ur-hdr-dropdown');
+            button.addEventListener('click', (event) => {
+                event.stopPropagation();
+                if (!dropdown) return;
+                const isOpen = dropdown.classList.toggle('open');
+                button.setAttribute('aria-expanded', String(isOpen));
+            });
+        });
     }
 });

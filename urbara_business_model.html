@@ -158,9 +158,27 @@
 
   .grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto auto auto auto;
+    grid-template-areas:
+      "vp cs"
+      "kr ka"
+      "kp kp"
+      "cost rev"
+      "cr ch";
+    gap: 16px;
+    grid-auto-rows: minmax(0, auto);
   }
+
+  .vp { grid-area: vp; }
+  .cs { grid-area: cs; }
+  .kr { grid-area: kr; }
+  .ka { grid-area: ka; }
+  .kp { grid-area: kp; }
+  .cost { grid-area: cost; }
+  .rev { grid-area: rev; }
+  .cr { grid-area: cr; }
+  .ch { grid-area: ch; }
 
   .cell {
     border-radius: 12px;
@@ -320,7 +338,107 @@
     color: #38ef7d;
     box-shadow: 0 4px 15px rgba(56, 239, 125, 0.15);
   }
+
+  @media (max-width: 900px) {
+    .grid {
+      display: block;
+    }
+    .cell {
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.16);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 14px;
+      transition: background 0.25s ease, box-shadow 0.25s ease;
+    }
+    .cell:not(.expanded) {
+      padding: 0;
+    }
+    .cell:not(.expanded) > :not(.cell-head) {
+      display: none;
+    }
+    .cell.expanded > :not(.cell-head) {
+      display: block;
+    }
+    .cell .cell-head {
+      cursor: pointer;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: rgba(255,255,255,0.03);
+    }
+    .cell .cell-head::after {
+      content: '▾';
+      margin-left: auto;
+      font-size: 12px;
+      transition: transform 0.25s ease;
+    }
+    .cell.expanded .cell-head::after {
+      transform: rotate(180deg);
+    }
+    .cell:not(.expanded) .cell-head {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .cell.expanded {
+      padding: 14px 18px;
+    }
+    .cell.expanded .cell-head {
+      background: rgba(255,255,255,0.05);
+    }
+    .bmc-wrap {
+      padding-top: 16px;
+    }
+    .cell:not(.expanded) {
+      min-height: 58px;
+    }
+    .cell .cell-head {
+      min-height: 54px;
+    }
+  }
 </style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cells = Array.from(document.querySelectorAll('.bmc-wrap .cell'));
+    const wrapper = document.querySelector('.bmc-wrap');
+
+    if (!cells.length || !wrapper) return;
+
+    const activateCell = (activeCell) => {
+      cells.forEach((cell) => {
+        const expanded = cell === activeCell;
+        cell.classList.toggle('expanded', expanded);
+      });
+    };
+
+    const updateAccordion = () => {
+      if (window.innerWidth <= 900) {
+        wrapper.classList.add('mobile-accordion');
+        if (!cells.some((cell) => cell.classList.contains('expanded'))) {
+          activateCell(cells[0]);
+        }
+      } else {
+        wrapper.classList.remove('mobile-accordion');
+        cells.forEach((cell) => cell.classList.remove('expanded'));
+      }
+    };
+
+    cells.forEach((cell) => {
+      const header = cell.querySelector('.cell-head');
+      if (!header) return;
+      header.addEventListener('click', () => {
+        if (!wrapper.classList.contains('mobile-accordion')) return;
+        activateCell(cell);
+        window.scrollTo({ top: cell.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth' });
+      });
+    });
+
+    updateAccordion();
+    window.addEventListener('resize', updateAccordion);
+  });
+</script>
 <div class="bmc-wrap">
   <!-- UNIFIED NAVBAR -->
   
