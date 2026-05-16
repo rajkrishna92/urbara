@@ -136,12 +136,10 @@ button, input, textarea, select {
 .ur-hdr-title .sep {
   color: #ffffff;
   font-weight: 400;
-  font-size: 22px;
   opacity: 0.6;
 }
 .ur-hdr-title .lang {
   color: #ffffff;
-  font-size: 22px;
   font-weight: 800;
 }
 .ur-hdr-tag {
