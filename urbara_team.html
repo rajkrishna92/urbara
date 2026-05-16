@@ -1,0 +1,281 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URBARA - Team</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    
+
+    /* ── HEADER ── */
+    @keyframes shimmer {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes pulse-ring {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(56,239,125,0.25), 0 0 20px rgba(56,239,125,0.12); }
+      50%       { box-shadow: 0 0 0 6px rgba(56,239,125,0), 0 0 28px rgba(56,239,125,0.22); }
+    }
+
+    /* ── UNIFIED NAVBAR ── */
+    .ur-navbar {
+      background: linear-gradient(135deg, #061a10 0%, #0d2818 40%, #0a2030 100%);
+      border-radius: 16px;
+      padding: 14px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(56,239,125,0.1);
+      position: relative;
+      overflow: hidden;
+      gap: 20px;
+    }
+    .ur-navbar::before {
+      content: ''; position: absolute; top: -50px; left: -50px; width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(56,239,125,0.08) 0%, transparent 65%); pointer-events: none;
+    }
+    .ur-nav-left {
+      display: flex; align-items: center; gap: 16px; position: relative; z-index: 1;
+    }
+    .ur-logo {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: linear-gradient(145deg, rgba(56,239,125,0.15), rgba(6,182,212,0.1));
+      border: 1px solid rgba(56,239,125,0.3);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ur-logo svg { width: 28px; height: 28px; }
+    .ur-brand { display: flex; flex-direction: column; }
+    .ur-brand-title {
+      font-size: 22px; font-weight: 900; letter-spacing: 0.05em; line-height: 1.1;
+      background: linear-gradient(90deg, #38ef7d 0%, #11d4c4 40%, #7aff9e 70%, #38ef7d 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-size: 200% auto; animation: shimmer 3.5s linear infinite; margin-bottom: 4px;
+    }
+    .ur-brand-sub {
+      font-size: 10px; font-weight: 600; color: rgba(56,239,125,0.85); letter-spacing: 0.03em;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .ur-nav-menu {
+      display: flex; align-items: center; gap: 8px; position: relative; z-index: 1; flex-wrap: wrap; justify-content: flex-end;
+    }
+    .ur-menu-link {
+      color: rgba(255,255,255,0.7); text-decoration: none; padding: 8px 14px; border-radius: 10px;
+      font-size: 12px; font-weight: 600; transition: all 0.2s ease; border: 1px solid transparent;
+    }
+    .ur-menu-link:hover {
+      color: #38ef7d; background: rgba(56,239,125,0.08); border-color: rgba(56,239,125,0.2);
+    }
+    .ur-menu-link.active {
+      color: #38ef7d; background: rgba(56,239,125,0.12); border-color: rgba(56,239,125,0.3); font-weight: 700;
+    }
+    @media (max-width: 768px) {
+      .ur-navbar { flex-direction: column; align-items: flex-start; }
+      .ur-nav-menu { width: 100%; justify-content: flex-start; }
+    }
+
+    /* ── PAGE TITLE ── */
+    .page-title {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .page-title h1 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .page-title p {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 6px;
+    }
+
+    
+
+    /* Enhanced team card with extra details */
+    .team-card-wide {
+      max-width: 900px;
+      margin: 0 auto 24px;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+    }
+    .team-card-wide:hover {
+      box-shadow: 0 15px 40px rgba(56,239,125,0.15);
+      border-color: rgba(56,239,125,0.3);
+    }
+    .team-card-wide::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #38ef7d, #11d4c4);
+    }
+    .team-photo {
+      width: 130px; height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(56,239,125,0.4);
+      box-shadow: 0 0 25px rgba(56,239,125,0.2);
+      flex-shrink: 0;
+    }
+    .team-info { flex: 1; }
+    .team-name-lg { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .team-title { font-size: 14px; font-weight: 600; color: #38ef7d; margin-bottom: 12px; }
+    .team-bio { font-size: 13px; color: #94a3b8; line-height: 1.7; margin-bottom: 16px; }
+    .team-stats {
+      display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;
+    }
+    .stat-pill {
+      background: rgba(56,239,125,0.08); border: 1px solid rgba(56,239,125,0.2);
+      border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 600; color: #38ef7d;
+    }
+    .team-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .skill-tag {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px; padding: 4px 10px; font-size: 11px; color: #cbd5e1;
+    }
+    .team-links { display: flex; gap: 10px; flex-wrap: wrap; }
+    .team-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(56,239,125,0.1); border: 1px solid rgba(56,239,125,0.25);
+      color: #38ef7d; text-decoration: none; padding: 6px 14px; border-radius: 8px;
+      font-size: 12px; font-weight: 600; transition: all 0.2s ease;
+    }
+    .team-link:hover { background: rgba(56,239,125,0.2); }
+    @media (max-width: 640px) {
+      .team-card-wide { flex-direction: column; align-items: center; text-align: center; }
+      .team-tags, .team-stats, .team-links { justify-content: center; }
+    }
+  </style>
+
+</head>
+<body style="padding: 20px;">
+
+<link rel="stylesheet" href="assets/urbara.css">
+
+<script src="assets/header.js"></script>
+
+    <!-- UNIFIED NAVBAR -->
+  
+
+  <div class="page-title">
+    <h1>Meet the Founders</h1>
+    <p>The deep-tech minds behind URBARA</p>
+  </div>
+
+  <!-- RAJKRISHNA MONDAL — Rich Card -->
+  <div class="team-card-wide">
+    <img
+      src="https://rajkrishna92.github.io/assets/img/raj_profile_photo.jpg"
+      alt="Dr. Rajkrishna Mondal"
+      class="team-photo"
+      onerror="this.onerror=null; this.src=''; this.outerHTML='<div class=\'team-photo\' style=\'display:flex;align-items:center;justify-content:center;font-size:50px;background:#1e293b;\'>👤</div>';"
+    >
+    <div class="team-info">
+      <div class="team-name-lg">Dr. Rajkrishna Mondal</div>
+      <div class="team-title">Co-Founder · AI Researcher | Data Scientist | Mathematician</div>
+      <div class="team-bio">
+        India loses <strong style="color:#38ef7d">30% of its harvest to supply-chain inefficiency</strong> and farmers earn 20–30% below MSP due to information asymmetry. Dr. Mondal's mathematical and industry expertise closes this gap at every layer of URBARA's value chain.
+        <br><br>
+        <strong style="color:#fff;">🏢 Accrete AI — Senior Prompt Engineer (2025–Present)</strong><br>
+        Designing production-grade Agentic AI systems for enterprise and government clients — the same architecture URBARA uses for its real-time crop advisory engine. His RAG-based knowledge pipelines and multi-agent orchestration (LangChain, LangGraph) directly power URBARA's ability to give <em>grounded, audit-ready prescriptions</em> to farmers, not hallucinated guesses.
+        <br><br>
+        <strong style="color:#fff;">🏢 Infinite Analytics Pvt. Ltd. — AI Lead (2021–2025)</strong><br>
+        Led development of an AI cognitive search engine that <strong style="color:#38ef7d">reduced manual data processing by 70%</strong> and enabled Natural Language → SQL for non-technical users. At URBARA, this translates into a farmer-facing advisory system where FPO field agents query soil, weather, and mandi data in plain language and get actionable, data-driven decisions instantly.
+        <br><br>
+        <strong style="color:#fff;">🎓 PhD Research — Fuzzy Logic &amp; Decision Systems</strong><br>
+        His doctoral work on Hesitant Fuzzy decision-support systems for medical diagnostics is now URBARA's mathematical engine for making crop recommendations <em>under uncertainty</em> — the exact condition every farmer faces with monsoon variability, soil heterogeneity, and unpredictable mandi prices.
+      </div>
+      <div class="team-stats">
+        <div class="stat-pill">📄 8+ Publications</div>
+        <div class="stat-pill">🏆 Best Paper Award — ICRTIMR 2020</div>
+        <div class="stat-pill">🎓 PhD, Mathematics &amp; Scientific Computing</div>
+        <div class="stat-pill">🤖 15+ AI Certifications</div>
+      </div>
+      <div class="team-tags">
+        <span class="skill-tag">Fuzzy Logic</span>
+        <span class="skill-tag">Agentic AI</span>
+        <span class="skill-tag">LLMs &amp; NLP</span>
+        <span class="skill-tag">LangChain</span>
+        <span class="skill-tag">RAG Systems</span>
+        <span class="skill-tag">Multi-Agent Systems</span>
+        <span class="skill-tag">Mathematical Optimization</span>
+        <span class="skill-tag">PyTorch</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">Knowledge Graphs</span>
+      </div>
+      <div class="team-links">
+        <a href="https://rajkrishna92.github.io/" target="_blank" class="team-link">🌐 Portfolio</a>
+        <a href="https://rajkrishna92.github.io/cv/Rajkrishna_CV_single.pdf" target="_blank" class="team-link">📄 Resume</a>
+        <a href="https://www.linkedin.com/in/rajkrishna92/" target="_blank" class="team-link">🔗 LinkedIn</a>
+        <a href="mailto:rajkrishna.math@gmail.com" class="team-link">✉️ Email</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BIDISHA BHOWAL — Rich Card -->
+  <div class="team-card-wide">
+    <img
+      src="https://bidisha63-ai.github.io/assets/img/bidisha.jpg"
+      alt="Bidisha Bhowal"
+      class="team-photo"
+      onerror="this.onerror=null; this.src=''; this.outerHTML='<div class=\'team-photo\' style=\'display:flex;align-items:center;justify-content:center;font-size:50px;background:#1e293b;\'>🌿</div>';"
+    >
+    <div class="team-info">
+      <div class="team-name-lg">Bidisha Bhowal</div>
+      <div class="team-title">Co-Founder · Biotechnology Researcher &amp; Computational Biologist</div>
+      <div class="team-bio">
+        Indian farmers overuse chemical inputs by up to <strong style="color:#2dd4bf">40% due to the absence of scientifically validated crop diagnostics</strong> at the field level. Bidisha's 5+ years of molecular biology research at ICGEB — on plant stress tolerance and the glyoxalase pathway in rice — directly addresses this. She is building URBARA's bio-diagnostic core: soil microbiome testing, crop disease susceptibility profiling, and quality-certification protocols for mandis and food processors. Her computational biology skills bridge lab science with URBARA's AI platform, giving every AI recommendation a peer-reviewed biological foundation — making URBARA the only agri-tech platform where the science is as defensible as the technology.
+      </div>
+      <div class="team-stats">
+        <div class="stat-pill">📄 9 Peer-Reviewed Publications</div>
+        <div class="stat-pill">🏆 CSIR-Direct SRF 2021</div>
+        <div class="stat-pill">📊 GATE (BT) AIR 393 — 95.6 Percentile</div>
+        <div class="stat-pill">🔬 ICGEB, New Delhi</div>
+      </div>
+      <div class="team-tags">
+        <span class="skill-tag">Plant Molecular Biology</span>
+        <span class="skill-tag">Glyoxalase Pathway</span>
+        <span class="skill-tag">Stress Tolerance</span>
+        <span class="skill-tag">Bioinformatics</span>
+        <span class="skill-tag">Comparative Genomics</span>
+        <span class="skill-tag">Molecular Docking</span>
+        <span class="skill-tag">RNA Isolation &amp; PCR</span>
+        <span class="skill-tag">Protein Characterization</span>
+        <span class="skill-tag">Computational Biology</span>
+        <span class="skill-tag">Pan-Genome Surveys</span>
+      </div>
+      <div class="team-links">
+        <a href="https://bidisha63-ai.github.io/" target="_blank" class="team-link">🌐 Portfolio</a>
+        <a href="https://bidisha63-ai.github.io/Bidisha_resume.pdf" target="_blank" class="team-link">📄 Resume</a>
+        <a href="https://www.linkedin.com/in/bidisha-bhowal-36b35673/" target="_blank" class="team-link">🔗 LinkedIn</a>
+        <a href="mailto:bidisha63@gmail.com" class="team-link">✉️ Email</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
+
+
+

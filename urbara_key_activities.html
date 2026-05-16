@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URBARA — Key Activities | Deep Dive</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    
+    @keyframes shimmer{0%{background-position:0% center}100%{background-position:200% center}}
+    .ur-navbar{background:linear-gradient(135deg,#061a10 0%,#0d2818 40%,#0a2030 100%);border-radius:16px;padding:14px 24px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 8px 32px rgba(0,0,0,.4),0 0 0 1px rgba(56,239,125,.1);position:relative;overflow:hidden;gap:20px}
+    .ur-navbar::before{content:'';position:absolute;top:-50px;left:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(56,239,125,.08) 0%,transparent 65%);pointer-events:none}
+    .ur-nav-left{display:flex;align-items:center;gap:16px;position:relative;z-index:1}
+    .ur-logo{width:48px;height:48px;border-radius:12px;background:linear-gradient(145deg,rgba(56,239,125,.15),rgba(6,182,212,.1));border:1px solid rgba(56,239,125,.3);display:flex;align-items:center;justify-content:center}
+    .ur-logo svg{width:28px;height:28px}
+    .ur-brand{display:flex;flex-direction:column}
+    .ur-brand-title{font-size:22px;font-weight:900;letter-spacing:.05em;line-height:1.1;background:linear-gradient(90deg,#38ef7d 0%,#11d4c4 40%,#7aff9e 70%,#38ef7d 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shimmer 3.5s linear infinite;margin-bottom:4px}
+    .ur-brand-sub{font-size:10px;font-weight:600;color:rgba(56,239,125,.85);letter-spacing:.03em;display:inline-flex;align-items:center;gap:4px}
+    .ur-nav-menu{display:flex;align-items:center;gap:8px;position:relative;z-index:1;flex-wrap:wrap;justify-content:flex-end}
+    .ur-menu-link{color:rgba(255,255,255,.7);text-decoration:none;padding:8px 14px;border-radius:10px;font-size:12px;font-weight:600;transition:all .2s ease;border:1px solid transparent}
+    .ur-menu-link:hover{color:#38ef7d;background:rgba(56,239,125,.08);border-color:rgba(56,239,125,.2)}
+    .ur-menu-link.active{color:#38ef7d;background:rgba(56,239,125,.12);border-color:rgba(56,239,125,.3);font-weight:700}
+    @media(max-width:768px){.ur-navbar{flex-direction:column;align-items:flex-start}.ur-nav-menu{width:100%;justify-content:flex-start}}
+    .back-btn{display:inline-flex;align-items:center;gap:8px;color:#94a3b8;text-decoration:none;font-size:14px;font-weight:600;margin-bottom:24px;transition:color .2s}
+    .back-btn:hover{color:#38ef7d}
+    .page-wrap{max-width:1050px;margin:0 auto}
+    .hero{width:100%;height:260px;object-fit:cover;border-radius:16px;margin-bottom:32px;border:1px solid rgba(34,197,94,.2);box-shadow:0 0 40px rgba(34,197,94,.1)}
+    .page-header{display:flex;align-items:center;gap:20px;margin-bottom:36px;padding-bottom:28px;border-bottom:1px dashed #334155}
+    .emoji-box{font-size:48px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:16px;padding:16px;line-height:1;flex-shrink:0}
+    h1{font-size:34px;font-weight:800;color:#fff;margin-bottom:6px}
+    .page-sub{color:#4ade80;font-size:16px;font-weight:600}
+    .layout{display:grid;grid-template-columns:1fr 320px;gap:40px}
+    @media(max-width:860px){.layout{grid-template-columns:1fr}}
+    .content h2{font-size:20px;font-weight:800;color:#fff;margin:36px 0 14px;padding-left:14px;border-left:4px solid #22c55e}
+    .content h2:first-child{margin-top:0}
+    .content p{font-size:14.5px;line-height:1.85;color:#cbd5e1;margin-bottom:18px}
+    .content ul{list-style:none;padding:0;margin-bottom:18px}
+    .content ul li{font-size:14px;line-height:1.75;color:#cbd5e1;padding:8px 0 8px 28px;position:relative;border-bottom:1px solid rgba(255,255,255,.04)}
+    .content ul li::before{content:"→";position:absolute;left:0;color:#4ade80;font-weight:700}
+    table{width:100%;border-collapse:collapse;margin:22px 0;font-size:13px;border-radius:10px;overflow:hidden;border:1px solid rgba(34,197,94,.2)}
+    th{background:rgba(34,197,94,.1);color:#4ade80;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:13px 16px;text-align:left}
+    td{padding:12px 16px;color:#cbd5e1;border-bottom:1px solid rgba(255,255,255,.05)}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:rgba(34,197,94,.03)}
+    .callout{border-radius:12px;padding:18px 20px;margin:22px 0;border-left:4px solid}
+    .callout.green{background:rgba(34,197,94,.08);border-color:#22c55e}
+    .callout.amber{background:rgba(245,158,11,.07);border-color:#f59e0b}
+    .callout p{margin:0;font-size:14px}
+    .sidebar{height:fit-content;position:sticky;top:24px}
+    .stat-card{background:#0f172a;border:1px solid rgba(34,197,94,.2);border-radius:12px;padding:20px;margin-bottom:16px;text-align:center}
+    .stat-val{font-size:30px;font-weight:900;color:#4ade80;line-height:1;margin-bottom:6px}
+    .stat-lbl{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+    .tag-cloud{background:#0f172a;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:18px}
+    .tag-cloud h4{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;margin-bottom:12px;font-weight:700}
+    .tag{display:inline-block;font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px;margin:4px 4px 4px 0;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);color:#4ade80}
+  </style>
+</head>
+<body>
+
+<link rel="stylesheet" href="assets/urbara.css">
+
+<script src="assets/header.js"></script>
+
+  
+
+  <div class="page-wrap">
+    <a href="urbara_business_model.html" class="back-btn">⬅ Back to Business Model Canvas</a>
+    <img src="assets/ka_hero.png" class="hero" alt="Key Activities">
+    <div class="page-header">
+      <div class="emoji-box">⚡</div>
+      <div>
+        <h1>Key Activities</h1>
+        <div class="page-sub">Bio-Diagnostics · Precision Agronomy · Agentic AI · Math Optimisation</div>
+      </div>
+    </div>
+    <div class="layout">
+      <div class="content">
+
+        <h2>🌱 Soil Health Check incl. Soil Microbiome Testing</h2>
+        <p>Soil health testing is the foundational activity that triggers every other service URBARA provides. Without understanding the biological and chemical composition of the soil, no AI model can generate a reliable crop prescription. Traditional government soil testing labs offer basic NPK (Nitrogen, Phosphorus, Potassium) analysis, which is necessary but severely incomplete — it ignores the soil's microbial ecosystem, which determines how efficiently those nutrients are actually available to crop roots.</p>
+        <p>URBARA's approach goes significantly deeper:</p>
+        <ul>
+          <li><strong>Physical Soil Sampling:</strong> URBARA field technicians collect geo-tagged soil samples from multiple micro-plots within a single farm (accounting for spatial variability), which are then processed in an accredited lab using metagenomics protocols developed by Dr. Bidisha Bhowal at IIT Delhi.</li>
+          <li><strong>Microbiome Sequencing (NGS):</strong> Next-Generation Sequencing profiles the full microbial community — bacteria, fungi, archaea — identifying beneficial organisms (like nitrogen-fixing Rhizobium strains and phosphorus-solubilizing fungi) and pathogenic organisms (like Fusarium root-rot causing species). ICAR-NBAIM's Indian Soil Microbiome Project has established reference baselines across India's agro-ecological zones that URBARA cross-references for diagnosis.</li>
+          <li><strong>Biochemical Activity Assays:</strong> Soil respiration rate, enzymatic activity (urease, phosphatase), and microbial biomass carbon are measured to quantify how biologically active or degraded the soil is — translating complex biology into a simple "Soil Health Score" presented to the farmer.</li>
+        </ul>
+        <div class="callout green">
+          <p>🔬 <strong>Scientific Justification:</strong> Research published in Frontiers in Microbiology demonstrates that farms using microbiome-informed management practices show <strong>15–40% reductions in synthetic fertiliser requirements</strong> with equivalent or improved yields, due to enhanced natural nutrient cycling by beneficial microbial consortia. ICAR's Indian Soil Microbiome Project is actively building the national reference database that URBARA leverages.</p>
+        </div>
+
+        <h2>🔄 AI-Powered Crop Rotation Consultation</h2>
+        <p>Crop rotation — the practice of growing different crops sequentially on the same land — is one of the most powerful tools for maintaining soil health, managing pests, and stabilising farm income. However, the optimal rotation is not generic; it depends on the specific soil microbiome, local weather patterns, market demand, and the genotype-specific interactions between particular crop varieties and local environmental conditions.</p>
+        <table>
+          <tr><th>Consultation Component</th><th>Data Input</th><th>Output Prescription</th></tr>
+          <tr><td>Variety Selection (GxE Models)</td><td>Soil microbiome profile, historical climate data, regional ICAR trial data</td><td>Specific crop varieties optimised for the farm's soil-climate combination</td></tr>
+          <tr><td>Rotation Sequencing</td><td>Previous 3-season crop history, soil nutrient depletion model</td><td>Kharif-Rabi-Zaid rotation plan that replenishes specific depleted nutrients</td></tr>
+          <tr><td>Market Alignment</td><td>Live e-NAM price trends, FMCG procurement calendars</td><td>Crop choices that maximise price realisation at harvest time</td></tr>
+          <tr><td>Disease Break Cycles</td><td>Pathogen profile from microbiome testing, disease pressure maps</td><td>Rotation that naturally breaks soil-borne disease cycles, reducing chemical inputs</td></tr>
+        </table>
+        <p>Dr. Rajkrishna's <strong>GxE (Genotype × Environment) interaction models</strong> are the mathematical backbone of this activity. These models, developed through his PhD research in Computational Mathematics, statistically predict how specific crop genotypes will respond to specific environmental conditions — transforming variety selection from guesswork into a mathematically optimised decision.</p>
+
+        <h2>🤖 Agentic AI Integrating Real-Time Data for Field Decisions</h2>
+        <p>URBARA's Agentic AI is the central nervous system of the platform. Unlike a simple chatbot or static advisory portal, an Agentic AI operates autonomously — it does not wait for the farmer to ask a question. It continuously monitors all connected data streams and proactively pushes alerts at the exact moment a decision window opens.</p>
+        <ul>
+          <li><strong>Real-time Data Synthesis:</strong> The agent simultaneously processes soil sensor readings (moisture, pH), live weather forecasts (IMD, Skymet), NDVI anomalies from satellite imagery, and e-NAM price movements — triangulating all inputs to determine the single most critical action the farmer should take next.</li>
+          <li><strong>Prescriptive Alerts (Push, not Pull):</strong> "Your paddy field Block-A shows early leaf blight stress (NDVI drop 0.08 in 72hrs). Apply Tricyclazole 75% WP at 0.6g/L. Mandi price for Grade-A paddy is ₹2,180/quintal today (5-year high). Harvest within 9 days." — This level of specificity requires multi-domain expertise that no single agronomist can manually provide at scale.</li>
+          <li><strong>Multilingual Output:</strong> All prescriptions are translated by the LLM into Hindi, Bengali, Odia, or other regional languages, delivered as voice notes via WhatsApp or IVR — eliminating literacy and language barriers.</li>
+        </ul>
+        <div class="callout amber">
+          <p>⚙️ <strong>Technical Stack:</strong> The Agentic AI is built on an LLM orchestration layer (OpenAI GPT-4o / Gemini 1.5 Pro) with custom agricultural domain fine-tuning, connected to real-time data APIs (e-NAM, ISRO Bhuvan, IMD, IoT sensor streams) through a retrieval-augmented generation (RAG) architecture.</p>
+        </div>
+
+        <h2>📐 Math-Driven Logistics &amp; Supply Chain Optimisation in Fuzzy Environments</h2>
+        <p>The logistics of moving agricultural produce from farm to mandi is not a clean, deterministic problem. It involves simultaneous uncertainty across multiple dimensions: road conditions (potholed, flooded, blocked), vehicle availability (breakdown probability), weather (unexpected rain delays), and price volatility (mandi prices shift hourly). Standard logistics algorithms fail in these conditions.</p>
+        <p>Dr. Rajkrishna's research specialty — <strong>Hesitant Fuzzy Set theory applied to multi-criteria decision-making</strong> — is specifically designed for exactly this problem. It mathematically handles situations where decision-makers are hesitant or uncertain about their evaluations, and finds the optimal compromise across conflicting objectives simultaneously.</p>
+        <table>
+          <tr><th>Logistics Problem</th><th>Conventional Approach</th><th>URBARA's Math-Driven Approach</th></tr>
+          <tr><td>Route Selection</td><td>Shortest distance (Google Maps)</td><td>Hesitant Fuzzy TOPSIS — optimises simultaneously for distance, road quality certainty, traffic probability, and freshness window</td></tr>
+          <tr><td>Mandi Selection</td><td>Nearest mandi</td><td>Multi-criteria scoring: live price premium, transport cost, arrival time vs. auction schedule, grade matching</td></tr>
+          <tr><td>Vehicle Allocation</td><td>First available truck</td><td>Fleet optimisation considering vehicle capacity, cold-chain capability, reliability score, and cost</td></tr>
+        </table>
+        <div class="callout green">
+          <p>📊 <strong>Impact Justification:</strong> India loses approximately <strong>74 million tonnes of food annually</strong> (22% of foodgrain output), with logistics inefficiency being the primary driver (NABCONS / MoFPI assessment, 2022). Even a 10% reduction in logistics losses via URBARA's math optimisation engine would represent over 7 million tonnes of food saved annually — a multi-billion rupee recovery.</p>
+        </div>
+
+        <h2>🔬 Bio-Informatic &amp; AI-Powered Disease Susceptibility and Quality Testing</h2>
+        <p>This activity bridges the gap between farm-level biology and market-level commerce. URBARA uses Dr. Bidisha's molecular biology expertise to create a verifiable, science-backed quality score for agricultural produce — replacing the current subjective, eyeball-inspection grading at mandis with an objective, molecular-level certification.</p>
+        <ul>
+          <li><strong>Disease Susceptibility Screening:</strong> Before a crop is planted, URBARA screens seed varieties for genetic susceptibility to known regional pathogens (e.g., blast fungus in rice, late blight in potatoes), using bio-informatic analysis of pathogen databases maintained by ICAR-IARI. This prevents crop failure before it happens.</li>
+          <li><strong>Post-Harvest Bio-Quality Testing:</strong> At the mandi, URBARA's testing pipeline measures MRL (Maximum Residue Level) compliance, sugar/starch content, moisture, and pathogen load — all of which directly determine whether produce qualifies for premium domestic markets or export.</li>
+          <li><strong>Computer Vision Grading:</strong> AI-powered image analysis (trained on ICAR-certified grade standards) provides rapid visual grading (Grade A/B/C) in seconds, supplementing the molecular data with bulk-level quality estimation for the entire consignment.</li>
+          <li><strong>Blockchain-Backed Certificate:</strong> Each quality test generates an immutable, timestamped digital certificate — the chain of custody document that FMCG companies require for regulatory compliance and premium payment.</li>
+        </ul>
+
+      </div>
+      <div class="sidebar">
+        <div class="stat-card"><div class="stat-val">74M T</div><div class="stat-lbl">Food lost annually in India (NABCONS, 2022)</div></div>
+        <div class="stat-card"><div class="stat-val">22%</div><div class="stat-lbl">Of foodgrain output lost post-harvest</div></div>
+        <div class="stat-card"><div class="stat-val">40%</div><div class="stat-lbl">Fertiliser reduction possible via microbiome-informed management</div></div>
+        <div class="stat-card"><div class="stat-val">15 acres/hr</div><div class="stat-lbl">Drone spraying coverage vs 1-2 acres manually</div></div>
+        <div class="stat-card"><div class="stat-val">Real-time</div><div class="stat-lbl">Agentic AI decision latency — prescriptive, not reactive</div></div>
+        <div class="tag-cloud">
+          <h4>Activity Types</h4>
+          <span class="tag">🌱 Bio-Diagnostics</span>
+          <span class="tag">🤖 Agentic AI</span>
+          <span class="tag">📐 Math Optimisation</span>
+          <span class="tag">🔄 Precision Agronomy</span>
+          <span class="tag">🔬 Molecular QA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

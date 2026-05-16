@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URBARA — Customer Segments | Deep Dive</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    
+    @keyframes shimmer{0%{background-position:0% center}100%{background-position:200% center}}
+    .ur-navbar{background:linear-gradient(135deg,#061a10 0%,#0d2818 40%,#0a2030 100%);border-radius:16px;padding:14px 24px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 8px 32px rgba(0,0,0,.4),0 0 0 1px rgba(56,239,125,.1);position:relative;overflow:hidden;gap:20px}
+    .ur-navbar::before{content:'';position:absolute;top:-50px;left:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(56,239,125,.08) 0%,transparent 65%);pointer-events:none}
+    .ur-nav-left{display:flex;align-items:center;gap:16px;position:relative;z-index:1}
+    .ur-logo{width:48px;height:48px;border-radius:12px;background:linear-gradient(145deg,rgba(56,239,125,.15),rgba(6,182,212,.1));border:1px solid rgba(56,239,125,.3);display:flex;align-items:center;justify-content:center}
+    .ur-logo svg{width:28px;height:28px}
+    .ur-brand{display:flex;flex-direction:column}
+    .ur-brand-title{font-size:22px;font-weight:900;letter-spacing:.05em;line-height:1.1;background:linear-gradient(90deg,#38ef7d 0%,#11d4c4 40%,#7aff9e 70%,#38ef7d 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shimmer 3.5s linear infinite;margin-bottom:4px}
+    .ur-brand-sub{font-size:10px;font-weight:600;color:rgba(56,239,125,.85);letter-spacing:.03em;display:inline-flex;align-items:center;gap:4px}
+    .ur-nav-menu{display:flex;align-items:center;gap:8px;position:relative;z-index:1;flex-wrap:wrap;justify-content:flex-end}
+    .ur-menu-link{color:rgba(255,255,255,.7);text-decoration:none;padding:8px 14px;border-radius:10px;font-size:12px;font-weight:600;transition:all .2s ease;border:1px solid transparent}
+    .ur-menu-link:hover{color:#38ef7d;background:rgba(56,239,125,.08);border-color:rgba(56,239,125,.2)}
+    .ur-menu-link.active{color:#38ef7d;background:rgba(56,239,125,.12);border-color:rgba(56,239,125,.3);font-weight:700}
+    @media(max-width:768px){.ur-navbar{flex-direction:column;align-items:flex-start}.ur-nav-menu{width:100%;justify-content:flex-start}}
+    .back-btn{display:inline-flex;align-items:center;gap:8px;color:#94a3b8;text-decoration:none;font-size:14px;font-weight:600;margin-bottom:24px;transition:color .2s}
+    .back-btn:hover{color:#38ef7d}
+    .page-wrap{max-width:1050px;margin:0 auto}
+    .hero{width:100%;height:260px;object-fit:cover;border-radius:16px;margin-bottom:32px;border:1px solid rgba(20,184,166,.25);box-shadow:0 0 40px rgba(20,184,166,.12)}
+    .page-header{display:flex;align-items:center;gap:20px;margin-bottom:36px;padding-bottom:28px;border-bottom:1px dashed #334155}
+    .emoji-box{font-size:48px;background:rgba(20,184,166,.1);border:1px solid rgba(20,184,166,.3);border-radius:16px;padding:16px;line-height:1;flex-shrink:0}
+    h1{font-size:34px;font-weight:800;color:#fff;margin-bottom:6px}
+    .page-sub{color:#2dd4bf;font-size:16px;font-weight:600}
+    .layout{display:grid;grid-template-columns:1fr 320px;gap:40px}
+    @media(max-width:860px){.layout{grid-template-columns:1fr}}
+    .content h2{font-size:20px;font-weight:800;color:#fff;margin:36px 0 14px;padding-left:14px;border-left:4px solid #14b8a6}
+    .content h2:first-child{margin-top:0}
+    .content p{font-size:14.5px;line-height:1.85;color:#cbd5e1;margin-bottom:18px}
+    .content ul{list-style:none;padding:0;margin-bottom:18px}
+    .content ul li{font-size:14px;line-height:1.75;color:#cbd5e1;padding:8px 0 8px 28px;position:relative;border-bottom:1px solid rgba(255,255,255,.04)}
+    .content ul li::before{content:"→";position:absolute;left:0;color:#2dd4bf;font-weight:700}
+    table{width:100%;border-collapse:collapse;margin:22px 0;font-size:13px;border-radius:10px;overflow:hidden;border:1px solid rgba(20,184,166,.2)}
+    th{background:rgba(20,184,166,.12);color:#2dd4bf;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:13px 16px;text-align:left}
+    td{padding:12px 16px;color:#cbd5e1;border-bottom:1px solid rgba(255,255,255,.05)}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:rgba(20,184,166,.04)}
+    .callout{border-radius:12px;padding:18px 20px;margin:22px 0;border-left:4px solid}
+    .callout.teal{background:rgba(20,184,166,.08);border-color:#14b8a6}
+    .callout.blue{background:rgba(59,130,246,.07);border-color:#3b82f6}
+    .callout p{margin:0;font-size:14px}
+    .sidebar{height:fit-content;position:sticky;top:24px}
+    .stat-card{background:#0f172a;border:1px solid rgba(20,184,166,.2);border-radius:12px;padding:20px;margin-bottom:16px;text-align:center}
+    .stat-val{font-size:32px;font-weight:900;color:#2dd4bf;line-height:1;margin-bottom:6px}
+    .stat-lbl{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+    .tag-cloud{background:#0f172a;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:18px}
+    .tag-cloud h4{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;margin-bottom:12px;font-weight:700}
+    .tag{display:inline-block;font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px;margin:4px 4px 4px 0;background:rgba(20,184,166,.15);border:1px solid rgba(20,184,166,.3);color:#2dd4bf}
+    .seg-card{background:#0f172a;border:1px solid rgba(20,184,166,.15);border-radius:12px;padding:20px;margin-bottom:16px}
+    .seg-card h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+    .seg-card p{font-size:13px;color:#94a3b8;margin:0;line-height:1.6}
+  </style>
+</head>
+<body>
+
+<link rel="stylesheet" href="assets/urbara.css">
+
+<script src="assets/header.js"></script>
+
+  
+
+  <div class="page-wrap">
+    <a href="urbara_business_model.html" class="back-btn">⬅ Back to Business Model Canvas</a>
+    <img src="assets/cs_hero.png" class="hero" alt="Customer Segments Visual">
+    <div class="page-header">
+      <div class="emoji-box">👥</div>
+      <div>
+        <h1>Customer Segments</h1>
+        <div class="page-sub">Market Scale · B2B2C Architecture · 140M+ Addressable Base</div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div class="content">
+
+        <h2>🌾 Smallholder Farmers — Precision Agronomy &amp; Yield Uplift</h2>
+        <p>India's 118 million smallholder farm families (owning less than 2 hectares each) are the most underserved segment in all of Indian agritech. They lack access to soil testing labs, agronomists, or reliable market information. Their average yield is 2–3x below the national potential yield — not because they are unskilled, but because they have never had access to the science available to large commercial farms.</p>
+        <ul>
+          <li><strong>What URBARA provides:</strong> WhatsApp and IVR-based advisory in local dialects (Hindi, Bengali, Odia). A farmer books a soil health check by sending a voice message. Within 48 hours, URBARA's Agentic AI delivers a personalised crop rotation plan and spraying schedule.</li>
+          <li><strong>Economic impact:</strong> Precision agronomy trials across South Asian smallholder farms show 30–120% yield increases within the first two seasons of adoption.</li>
+          <li><strong>CAC Strategy:</strong> URBARA does not acquire smallholders individually. They are reached at scale through FPO networks, eliminating the massive individual Customer Acquisition Cost (CAC) barrier.</li>
+        </ul>
+        <div class="callout teal">
+          <p>📊 <strong>Market Data:</strong> 80% of India's 140 million farmers are smallholders. Only 4% of smallholders currently access formal precision agronomy services. URBARA's SAM (Serviceable Addressable Market) in this segment alone is approximately <strong>56 million farm families</strong> within 5 years of scale.</p>
+        </div>
+
+        <h2>🏘️ FPOs — Collective Precision Services &amp; Supply Chain Access</h2>
+        <p>Farmer Producer Organisations (FPOs) are URBARA's primary B2B distribution channel and co-delivery partner. An FPO aggregates 500–5,000 smallholder farmers into a collective purchasing and selling entity, allowing URBARA to deploy services at scale with a single contract rather than thousands of individual farmer agreements.</p>
+        <table>
+          <tr><th>FPO Role</th><th>URBARA's Delivery</th><th>Measurable Benefit</th></tr>
+          <tr><td>Precision Services Aggregation</td><td>Single FPO contract covers drone spraying + soil testing for all member farms</td><td>Per-acre service cost drops 60% vs individual farm visits</td></tr>
+          <tr><td>Collective Bargaining</td><td>AI quality grading allows FPO to prove premium-grade produce to buyers</td><td>Collective bargaining power increases negotiated price by 15–25%</td></tr>
+          <tr><td>Supply Chain Access</td><td>FPO's pooled produce is routed directly to e-NAM or FMCG bulk buyers via URBARA's AI logistics engine</td><td>Eliminates 3–4 intermediary layers, improving farmer price realisation by 20–45%</td></tr>
+          <tr><td>Credit Access</td><td>e-NWR receipts backed by URBARA bio-quality certification unlock institutional credit</td><td>FPO member farmers access crop loans at 7% vs 24% moneylender rates</td></tr>
+        </table>
+        <div class="callout blue">
+          <p>📈 <strong>Scale:</strong> India has over <strong>10,000 registered FPOs</strong> (2024), with the government targeting 10,000 new FPOs by 2025. Each FPO represents a single B2B contract that unlocks access to hundreds or thousands of farm families. URBARA's primary growth strategy is FPO partnership depth, not individual farmer breadth.</p>
+        </div>
+
+        <h2>🏭 Small &amp; Large Agribusinesses — Quality Grading &amp; Logistics AI</h2>
+        <p>Agribusinesses operating at the mandi and processing layer face a severe grading inconsistency problem. The same commodity grade can vary dramatically between different regions, brokers, and seasons — making procurement planning extremely unreliable.</p>
+        <ul>
+          <li><strong>URBARA's Bio Quality Grading:</strong> Uses molecular bio-markers (sugar content, moisture, pathogen load, pesticide residue) and computer vision to produce standardised, verifiable quality scores for any batch of produce — eliminating the subjective, eyeball-inspection grading that currently dominates mandis.</li>
+          <li><strong>Logistics AI:</strong> Dr. Rajkrishna's Hesitant Fuzzy mathematical models calculate the optimal transportation route from farm to processing facility, factoring in perishability windows, vehicle availability, road condition uncertainty, and real-time fuel costs.</li>
+          <li><strong>SaaS Licensing:</strong> Agribusinesses subscribe to URBARA's quality grading API as a B2B software service, integrating it into their existing procurement ERP systems.</li>
+        </ul>
+
+        <h2>🛒 FMCGs &amp; Food Processors — Traceable, Premium-Grade Raw Supply</h2>
+        <p>The food processing and FMCG sector (companies like ITC, Nestle India, Britannia, Amul, and exporters) faces extreme compliance and traceability pressure from international regulators. The EU's Maximum Residue Level (MRL) regulations and FSSAI's domestic standards require documented proof of chemical use from seed to shelf.</p>
+        <ul>
+          <li><strong>The URBARA Traceability Stack:</strong> Every farm that uses URBARA's drone spraying service generates a verified, time-stamped, GPS-tagged chemical application log. This log, combined with post-harvest molecular bio-quality testing, constitutes a farm-to-mandi chain of custody document — exactly what FMCG companies need for regulatory compliance.</li>
+          <li><strong>Premium Segment Access:</strong> Produce from URBARA-managed farms that passes molecular quality certification is routed to premium B2B buyers who pay a 15–35% price premium for traceable, MRL-compliant supply.</li>
+          <li><strong>Export Market:</strong> For export-grade produce (particularly for EU/Gulf markets), URBARA's bio-certification dramatically reduces the rejection risk at customs — a problem that currently costs Indian agricultural exporters approximately ₹5,000 crore annually.</li>
+        </ul>
+        <div class="callout teal">
+          <p>🌐 <strong>Export Opportunity:</strong> India's agricultural exports were valued at <strong>$53.1 billion in FY2023</strong>. Export rejection due to MRL non-compliance affects approximately 8% of shipments by value. URBARA's farm-to-shelf traceability stack directly attacks this ₹35,000+ crore annual export leakage.</p>
+        </div>
+
+      </div>
+
+      <div class="sidebar">
+        <div class="stat-card">
+          <div class="stat-val">140M+</div>
+          <div class="stat-lbl">Total farmers in India (TAM)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">80%</div>
+          <div class="stat-lbl">Are smallholders — the underserved segment</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">10,000+</div>
+          <div class="stat-lbl">Registered FPOs — URBARA's B2B channel</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">$53B</div>
+          <div class="stat-lbl">India's agricultural exports (FY2023)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">4%</div>
+          <div class="stat-lbl">Smallholders with precision agronomy access today — URBARA's immediate gap</div>
+        </div>
+        <div class="tag-cloud">
+          <h4>Market Types</h4>
+          <span class="tag">🤝 B2B</span>
+          <span class="tag">🛍️ B2C</span>
+          <span class="tag">🛍️ D2C</span>
+          <span class="tag">⭐ Premium Market</span>
+          <span class="tag">🌐 Export-Ready</span>
+          <span class="tag">🏘️ FPO Networks</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

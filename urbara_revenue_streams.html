@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URBARA — Revenue Streams | Deep Dive</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    
+    @keyframes shimmer{0%{background-position:0% center}100%{background-position:200% center}}
+    .ur-navbar{background:linear-gradient(135deg,#061a10 0%,#0d2818 40%,#0a2030 100%);border-radius:16px;padding:14px 24px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 8px 32px rgba(0,0,0,.4),0 0 0 1px rgba(56,239,125,.1);position:relative;overflow:hidden;gap:20px}
+    .ur-navbar::before{content:'';position:absolute;top:-50px;left:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(56,239,125,.08) 0%,transparent 65%);pointer-events:none}
+    .ur-nav-left{display:flex;align-items:center;gap:16px;position:relative;z-index:1}
+    .ur-logo{width:48px;height:48px;border-radius:12px;background:linear-gradient(145deg,rgba(56,239,125,.15),rgba(6,182,212,.1));border:1px solid rgba(56,239,125,.3);display:flex;align-items:center;justify-content:center}
+    .ur-logo svg{width:28px;height:28px}
+    .ur-brand{display:flex;flex-direction:column}
+    .ur-brand-title{font-size:22px;font-weight:900;letter-spacing:.05em;line-height:1.1;background:linear-gradient(90deg,#38ef7d 0%,#11d4c4 40%,#7aff9e 70%,#38ef7d 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shimmer 3.5s linear infinite;margin-bottom:4px}
+    .ur-brand-sub{font-size:10px;font-weight:600;color:rgba(56,239,125,.85);letter-spacing:.03em;display:inline-flex;align-items:center;gap:4px}
+    .ur-nav-menu{display:flex;align-items:center;gap:8px;position:relative;z-index:1;flex-wrap:wrap;justify-content:flex-end}
+    .ur-menu-link{color:rgba(255,255,255,.7);text-decoration:none;padding:8px 14px;border-radius:10px;font-size:12px;font-weight:600;transition:all .2s ease;border:1px solid transparent}
+    .ur-menu-link:hover{color:#38ef7d;background:rgba(56,239,125,.08);border-color:rgba(56,239,125,.2)}
+    .ur-menu-link.active{color:#38ef7d;background:rgba(56,239,125,.12);border-color:rgba(56,239,125,.3);font-weight:700}
+    @media(max-width:768px){.ur-navbar{flex-direction:column;align-items:flex-start}.ur-nav-menu{width:100%;justify-content:flex-start}}
+    .back-btn{display:inline-flex;align-items:center;gap:8px;color:#94a3b8;text-decoration:none;font-size:14px;font-weight:600;margin-bottom:24px;transition:color .2s}
+    .back-btn:hover{color:#38ef7d}
+    .page-wrap{max-width:1050px;margin:0 auto}
+    .hero{width:100%;height:260px;object-fit:cover;border-radius:16px;margin-bottom:32px;border:1px solid rgba(16,185,129,.2);box-shadow:0 0 40px rgba(16,185,129,.1)}
+    .page-header{display:flex;align-items:center;gap:20px;margin-bottom:36px;padding-bottom:28px;border-bottom:1px dashed #334155}
+    .emoji-box{font-size:48px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);border-radius:16px;padding:16px;line-height:1;flex-shrink:0}
+    h1{font-size:34px;font-weight:800;color:#fff;margin-bottom:6px}
+    .page-sub{color:#34d399;font-size:16px;font-weight:600}
+    .layout{display:grid;grid-template-columns:1fr 320px;gap:40px}
+    @media(max-width:860px){.layout{grid-template-columns:1fr}}
+    .content h2{font-size:20px;font-weight:800;color:#fff;margin:36px 0 14px;padding-left:14px;border-left:4px solid #10b981}
+    .content h2:first-child{margin-top:0}
+    .content p{font-size:14.5px;line-height:1.85;color:#cbd5e1;margin-bottom:18px}
+    .content ul{list-style:none;padding:0;margin-bottom:18px}
+    .content ul li{font-size:14px;line-height:1.75;color:#cbd5e1;padding:8px 0 8px 28px;position:relative;border-bottom:1px solid rgba(255,255,255,.04)}
+    .content ul li::before{content:"→";position:absolute;left:0;color:#34d399;font-weight:700}
+    table{width:100%;border-collapse:collapse;margin:22px 0;font-size:13px;border-radius:10px;overflow:hidden;border:1px solid rgba(16,185,129,.2)}
+    th{background:rgba(16,185,129,.1);color:#34d399;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:13px 16px;text-align:left}
+    td{padding:12px 16px;color:#cbd5e1;border-bottom:1px solid rgba(255,255,255,.05)}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:rgba(16,185,129,.03)}
+    .callout{border-radius:12px;padding:18px 20px;margin:22px 0;border-left:4px solid}
+    .callout.green{background:rgba(16,185,129,.08);border-color:#10b981}
+    .callout.blue{background:rgba(59,130,246,.07);border-color:#3b82f6}
+    .callout p{margin:0;font-size:14px}
+    .sidebar{height:fit-content;position:sticky;top:24px}
+    .stat-card{background:#0f172a;border:1px solid rgba(16,185,129,.2);border-radius:12px;padding:20px;margin-bottom:16px;text-align:center}
+    .stat-val{font-size:28px;font-weight:900;color:#34d399;line-height:1;margin-bottom:6px}
+    .stat-lbl{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+    .tag-cloud{background:#0f172a;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:18px}
+    .tag-cloud h4{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;margin-bottom:12px;font-weight:700}
+    .tag{display:inline-block;font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px;margin:4px 4px 4px 0;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);color:#34d399}
+    .rev-stream-card{background:linear-gradient(135deg,rgba(16,185,129,.07),rgba(0,0,0,0));border:1px solid rgba(16,185,129,.15);border-radius:12px;padding:20px;margin-bottom:16px;position:relative}
+    .rev-stream-card .rs-phase{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#34d399;margin-bottom:6px}
+    .rev-stream-card h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:8px}
+    .rev-stream-card p{font-size:13px;color:#94a3b8;margin:0;line-height:1.6}
+  </style>
+</head>
+<body>
+
+<link rel="stylesheet" href="assets/urbara.css">
+
+<script src="assets/header.js"></script>
+
+  
+  <div class="page-wrap">
+    <a href="urbara_business_model.html" class="back-btn">⬅ Back to Business Model Canvas</a>
+    <img src="assets/rev_hero.png" class="hero" alt="Revenue Streams">
+    <div class="page-header">
+      <div class="emoji-box">💰</div>
+      <div>
+        <h1>Revenue Streams</h1>
+        <div class="page-sub">7 Diversified Income Sources · Phased Monetisation · Grant-Funded Launch</div>
+      </div>
+    </div>
+    <div class="layout">
+      <div class="content">
+
+        <p>URBARA's revenue model is deliberately diversified across 7 income streams that activate sequentially across the company's growth stages — ensuring the business is never dependent on a single revenue source and that income scales naturally with the number of farms and FPOs served.</p>
+
+        <table>
+          <tr><th>Revenue Stream</th><th>Stage</th><th>Margin Type</th><th>Customer</th></tr>
+          <tr><td>Non-Dilutive Grants</td><td>Phase 0 (Now)</td><td>100% (no repayment)</td><td>BIRAC, NIDHI, MeiTY</td></tr>
+          <tr><td>Boutique Consulting Fees</td><td>Phase 1</td><td>High (70–85%)</td><td>Export farms, premium agribusinesses</td></tr>
+          <tr><td>Success-Based Profit Sharing</td><td>Phase 1</td><td>Medium (40–60%)</td><td>FPOs</td></tr>
+          <tr><td>RaaS Field Service Fees</td><td>Phase 2</td><td>Medium (35–55%)</td><td>Smallholders via FPOs</td></tr>
+          <tr><td>Bio Quality Testing (QaaS)</td><td>Phase 2</td><td>High (65–80%)</td><td>Mandis, agribusinesses</td></tr>
+          <tr><td>SaaS / API Licensing</td><td>Phase 3</td><td>Very High (80–90%)</td><td>Food processors, FMCGs</td></tr>
+          <tr><td>Produce Aggregation Margin</td><td>Phase 3</td><td>Low-Medium (8–15%)</td><td>FPOs, FMCGs, exporters</td></tr>
+        </table>
+
+        <h2>🏦 Non-Dilutive Grants (BIRAC BIG, NIDHI-PRAYAS, MeiTY)</h2>
+        <p>At the current ideation stage, government grants are URBARA's primary source of operational funding — and critically, they carry <strong>zero equity dilution</strong>. This is the single most financially important decision for a deep-tech founding team: preserve equity at the early stage by funding pure R&amp;D with grants, not venture capital.</p>
+        <ul>
+          <li><strong>BIRAC BIG Grant:</strong> Up to ₹50 Lakhs as non-dilutive grant-in-aid, disbursed in milestone-based installments over 18 months. Specifically designed for biotechnology-based deep-tech startups, including smart agriculture applications (Source: BIRAC, 2024). URBARA's PhD-led founding team and bio-informatic focus makes it a high-eligibility candidate. Application windows: January 1 and July 1 annually.</li>
+          <li><strong>NIDHI-PRAYAS:</strong> Up to ₹15 Lakhs for prototype development at FIIT-IITD incubated companies. URBARA's incubation at FIIT-IITD provides direct access to this scheme.</li>
+          <li><strong>MeiTY TIDE 2.0:</strong> ₹5–₹25 Lakhs for AI/technology startups at IIT-based incubators, covering cloud infrastructure and AI development costs.</li>
+        </ul>
+        <div class="callout green">
+          <p>💡 <strong>Combined Grant Potential:</strong> BIRAC BIG (₹50L) + NIDHI-PRAYAS (₹15L) + MeiTY TIDE (₹25L) = <strong>₹90 Lakhs in non-dilutive funding</strong> available to URBARA at the ideation-to-PoC stage — covering approximately 18–24 months of R&amp;D costs without any investor equity.</p>
+        </div>
+
+        <h2>💼 High-Margin Boutique Consulting Fees (Export/Premium)</h2>
+        <p>The first commercial revenue stream targets the highest-margin segment: farms and agribusinesses targeting export markets or premium domestic channels, where bio-quality certification and MRL compliance is mandatory and they can afford to pay for it.</p>
+        <ul>
+          <li><strong>Service:</strong> URBARA acts as a "Precision Agriculture Surgeon" — providing fully managed, end-to-end advisory from soil microbiome profiling through harvest quality certification.</li>
+          <li><strong>Pricing:</strong> ₹15,000–₹50,000 per consultation engagement per season, depending on farm size and complexity. For FPOs managing 50+ farms, this becomes a ₹5–₹25 Lakh annual retainer.</li>
+          <li><strong>Why clients pay premium:</strong> A single EU customs rejection of an export consignment costs ₹30–₹80 Lakhs in rejected produce. URBARA's MRL compliance certification reduces this risk to near-zero, making the consulting fee a <em>low-cost insurance premium</em>, not an expense.</li>
+        </ul>
+
+        <h2>📈 Success-Based Profit Sharing with FPOs</h2>
+        <p>This revenue model aligns URBARA's financial success directly with the farmer's outcomes — the strongest possible trust-building mechanism. URBARA charges nothing upfront; instead, it takes a pre-agreed percentage (typically 10–20%) of the verifiable incremental yield value generated by its AI prescriptions.</p>
+        <ul>
+          <li><strong>Verification mechanism:</strong> AgriStack crop yield data + mandi price records provide objective, tamper-resistant proof of yield improvement and price realisation — enabling accurate profit-share calculation without disputes.</li>
+          <li><strong>Example:</strong> If URBARA's AI helps an FPO of 200 farmers achieve ₹400/quintal better price realisation on 5,000 quintals of paddy (₹20 Lakhs incremental income), URBARA earns 15% = ₹3 Lakhs — with zero upfront cost to the FPO.</li>
+        </ul>
+
+        <h2>🛰️ Per-Acre / Per-Sensor Field Service Fees (RaaS)</h2>
+        <p>The Robotics-as-a-Service (RaaS) model monetises the physical AI execution layer — drone spraying, soil sensing — on a per-acre or per-sensor-reading basis. This is a recurring, usage-based revenue stream that scales linearly with the number of acres served.</p>
+        <table>
+          <tr><th>Service</th><th>Current Market Rate</th><th>URBARA's Value-Add</th></tr>
+          <tr><td>Generic Drone Spraying</td><td>₹350–₹500/acre</td><td>URBARA charges ₹500–₹800/acre, justified by AI-precision prescription + bio-validated chemical selection</td></tr>
+          <tr><td>Soil Health Report (Basic)</td><td>₹200–₹500/sample (govt labs)</td><td>URBARA charges ₹1,500–₹3,000/micro-plot for full microbiome + prescription bundle</td></tr>
+          <tr><td>Mandi Quality Grading</td><td>₹50–₹200/quintal (manual)</td><td>URBARA charges ₹150–₹400/quintal for AI + molecular bio-quality certificate</td></tr>
+        </table>
+
+        <h2>💻 SaaS / API Licensing for B2B Food Processors</h2>
+        <p>At scale, URBARA's AI platform becomes a white-label SaaS layer licensed to large agribusinesses, food processors, and FMCG companies who want to integrate URBARA's supply-chain intelligence into their existing procurement ERPs.</p>
+        <ul>
+          <li><strong>Pricing model:</strong> ₹5–₹25 Lakhs per year per enterprise license, based on the number of FPOs connected and volume of produce traced through the platform.</li>
+          <li><strong>Why FMCGs pay:</strong> FSSAI regulations and EU/UK import standards require documented farm-to-fork traceability. URBARA's API provides this as a plug-in service, avoiding the FMCG's need to build proprietary agri-data infrastructure.</li>
+        </ul>
+
+        <h2>🔬 Bio Quality-Testing-as-a-Service at Mandis</h2>
+        <p>Setting up rapid molecular quality testing stations at major mandis unlocks a high-frequency, transactional revenue stream. Every consignment that passes through gets tested — generating per-quintal fee revenue that compounds with mandi throughput volumes.</p>
+
+        <h2>🌾 Produce Aggregation Margin</h2>
+        <p>Once URBARA has verified that a farmer's produce meets premium-grade bio-quality standards (via its own testing protocol), it acts as a digital middleman — purchasing the produce at a slight premium to the mandi spot price and routing it to FMCG/export buyers willing to pay 15–35% above mandi rates for certified, traceable supply.</p>
+        <div class="callout blue">
+          <p>📊 <strong>Market Context:</strong> India's agricultural export value was <strong>$53.1 Billion in FY2023</strong>. The premium-grade, traceable segment of this market (targeting EU/Gulf markets) commands 20–40% price premiums over standard mandi prices. URBARA's bio-certification is the gateway to this premium segment — for both domestic premium buyers and export markets.</p>
+        </div>
+
+      </div>
+      <div class="sidebar">
+        <div class="stat-card"><div class="stat-val">₹90L</div><div class="stat-lbl">Combined grant potential (BIRAC + NIDHI + MeiTY)</div></div>
+        <div class="stat-card"><div class="stat-val">7</div><div class="stat-lbl">Diversified revenue streams — no single point of failure</div></div>
+        <div class="stat-card"><div class="stat-val">80–90%</div><div class="stat-lbl">Gross margin on SaaS/API licensing stream</div></div>
+        <div class="stat-card"><div class="stat-val">₹0</div><div class="stat-lbl">Upfront cost to farmers during grant-funded Phase 0</div></div>
+        <div class="tag-cloud">
+          <h4>Revenue Types</h4>
+          <span class="tag">💼 Consulting Fees</span>
+          <span class="tag">📈 Profit-Share</span>
+          <span class="tag">🛰️ RaaS</span>
+          <span class="tag">💻 SaaS/API</span>
+          <span class="tag">🔬 QaaS</span>
+          <span class="tag">🏦 Grants</span>
+          <span class="tag">🌾 Aggregation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

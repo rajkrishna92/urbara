@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URBARA — Key Resources | Deep Dive</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    
+    @keyframes shimmer{0%{background-position:0% center}100%{background-position:200% center}}
+    .ur-navbar{background:linear-gradient(135deg,#061a10 0%,#0d2818 40%,#0a2030 100%);border-radius:16px;padding:14px 24px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 8px 32px rgba(0,0,0,.4),0 0 0 1px rgba(56,239,125,.1);position:relative;overflow:hidden;gap:20px}
+    .ur-navbar::before{content:'';position:absolute;top:-50px;left:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(56,239,125,.08) 0%,transparent 65%);pointer-events:none}
+    .ur-nav-left{display:flex;align-items:center;gap:16px;position:relative;z-index:1}
+    .ur-logo{width:48px;height:48px;border-radius:12px;background:linear-gradient(145deg,rgba(56,239,125,.15),rgba(6,182,212,.1));border:1px solid rgba(56,239,125,.3);display:flex;align-items:center;justify-content:center}
+    .ur-logo svg{width:28px;height:28px}
+    .ur-brand{display:flex;flex-direction:column}
+    .ur-brand-title{font-size:22px;font-weight:900;letter-spacing:.05em;line-height:1.1;background:linear-gradient(90deg,#38ef7d 0%,#11d4c4 40%,#7aff9e 70%,#38ef7d 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shimmer 3.5s linear infinite;margin-bottom:4px}
+    .ur-brand-sub{font-size:10px;font-weight:600;color:rgba(56,239,125,.85);letter-spacing:.03em;display:inline-flex;align-items:center;gap:4px}
+    .ur-nav-menu{display:flex;align-items:center;gap:8px;position:relative;z-index:1;flex-wrap:wrap;justify-content:flex-end}
+    .ur-menu-link{color:rgba(255,255,255,.7);text-decoration:none;padding:8px 14px;border-radius:10px;font-size:12px;font-weight:600;transition:all .2s ease;border:1px solid transparent}
+    .ur-menu-link:hover{color:#38ef7d;background:rgba(56,239,125,.08);border-color:rgba(56,239,125,.2)}
+    .ur-menu-link.active{color:#38ef7d;background:rgba(56,239,125,.12);border-color:rgba(56,239,125,.3);font-weight:700}
+    @media(max-width:768px){.ur-navbar{flex-direction:column;align-items:flex-start}.ur-nav-menu{width:100%;justify-content:flex-start}}
+    .back-btn{display:inline-flex;align-items:center;gap:8px;color:#94a3b8;text-decoration:none;font-size:14px;font-weight:600;margin-bottom:24px;transition:color .2s}
+    .back-btn:hover{color:#38ef7d}
+    .page-wrap{max-width:1050px;margin:0 auto}
+    .hero{width:100%;height:260px;object-fit:cover;border-radius:16px;margin-bottom:32px;border:1px solid rgba(234,179,8,.2);box-shadow:0 0 40px rgba(234,179,8,.1)}
+    .page-header{display:flex;align-items:center;gap:20px;margin-bottom:36px;padding-bottom:28px;border-bottom:1px dashed #334155}
+    .emoji-box{font-size:48px;background:rgba(234,179,8,.1);border:1px solid rgba(234,179,8,.3);border-radius:16px;padding:16px;line-height:1;flex-shrink:0}
+    h1{font-size:34px;font-weight:800;color:#fff;margin-bottom:6px}
+    .page-sub{color:#facc15;font-size:16px;font-weight:600}
+    .layout{display:grid;grid-template-columns:1fr 320px;gap:40px}
+    @media(max-width:860px){.layout{grid-template-columns:1fr}}
+    .content h2{font-size:20px;font-weight:800;color:#fff;margin:36px 0 14px;padding-left:14px;border-left:4px solid #eab308}
+    .content h2:first-child{margin-top:0}
+    .content p{font-size:14.5px;line-height:1.85;color:#cbd5e1;margin-bottom:18px}
+    .content ul{list-style:none;padding:0;margin-bottom:18px}
+    .content ul li{font-size:14px;line-height:1.75;color:#cbd5e1;padding:8px 0 8px 28px;position:relative;border-bottom:1px solid rgba(255,255,255,.04)}
+    .content ul li::before{content:"→";position:absolute;left:0;color:#facc15;font-weight:700}
+    table{width:100%;border-collapse:collapse;margin:22px 0;font-size:13px;border-radius:10px;overflow:hidden;border:1px solid rgba(234,179,8,.2)}
+    th{background:rgba(234,179,8,.1);color:#facc15;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:13px 16px;text-align:left}
+    td{padding:12px 16px;color:#cbd5e1;border-bottom:1px solid rgba(255,255,255,.05)}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:rgba(234,179,8,.03)}
+    .callout{border-radius:12px;padding:18px 20px;margin:22px 0;border-left:4px solid}
+    .callout.amber{background:rgba(234,179,8,.08);border-color:#eab308}
+    .callout.green{background:rgba(34,197,94,.07);border-color:#22c55e}
+    .callout p{margin:0;font-size:14px}
+    .sidebar{height:fit-content;position:sticky;top:24px}
+    .stat-card{background:#0f172a;border:1px solid rgba(234,179,8,.2);border-radius:12px;padding:20px;margin-bottom:16px;text-align:center}
+    .stat-val{font-size:30px;font-weight:900;color:#facc15;line-height:1;margin-bottom:6px}
+    .stat-lbl{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+    .tag-cloud{background:#0f172a;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:18px}
+    .tag-cloud h4{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;margin-bottom:12px;font-weight:700}
+    .tag{display:inline-block;font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px;margin:4px 4px 4px 0;background:rgba(234,179,8,.12);border:1px solid rgba(234,179,8,.3);color:#facc15}
+  </style>
+</head>
+<body>
+
+<link rel="stylesheet" href="assets/urbara.css">
+
+<script src="assets/header.js"></script>
+
+  
+
+  <div class="page-wrap">
+    <a href="urbara_business_model.html" class="back-btn">⬅ Back to Business Model Canvas</a>
+    <img src="assets/kr_hero.png" class="hero" alt="Key Resources">
+    <div class="page-header">
+      <div class="emoji-box">🏗️</div>
+      <div>
+        <h1>Key Resources</h1>
+        <div class="page-sub">Data Infrastructure · AI Stack · Bio-Lab Access · Founding Team Moat</div>
+      </div>
+    </div>
+    <div class="layout">
+      <div class="content">
+
+        <h2>📡 AgriStack &amp; Satellite Imaging Data</h2>
+        <p>URBARA's foundational data layer is built on India's Digital Public Infrastructure (DPI) for agriculture — the AgriStack. Approved by the Union Cabinet in September 2024, AgriStack creates a unified, Aadhaar-linked digital identity for every farmer in India through a <strong>Farmer ID ("Kisan ki Pehchaan")</strong>. By integrating with this DPI, URBARA gains instant, verified access to farm boundaries, crop history, subsidy records, and landholding data — without building any data collection infrastructure ourselves.</p>
+        <table>
+          <tr><th>Resource</th><th>Current Scale (2024-25)</th><th>URBARA's Use</th></tr>
+          <tr><td>AgriStack Farmer IDs</td><td>60M+ generated; 110M target by 2027</td><td>Zero-friction farmer onboarding, verified identity, KYC for credit linkage</td></tr>
+          <tr><td>Digital Crop Survey</td><td>492 districts, 421,000 villages, 253M farm plots mapped (Rabi 2024-25)</td><td>Baseline crop-pattern data to train GxE yield prediction models</td></tr>
+          <tr><td>ISRO Bhuvan Satellite API</td><td>Multi-spectral imagery at 5m resolution, updated every 5 days</td><td>Real-time NDVI mapping, drought stress detection, crop health monitoring</td></tr>
+          <tr><td>SatSure Data Platform</td><td>Commercial crop monitoring for credit risk &amp; yield estimation</td><td>Supplementary insurance &amp; credit risk data for FPO financing models</td></tr>
+        </table>
+        <div class="callout amber">
+          <p>📊 <strong>Source:</strong> ICRISAT &amp; PIB, 2025 — AgriStack's Digital Crop Survey covered 492 districts in Rabi 2024-25, mapping approximately <strong>253 million farm plots</strong>. URBARA can leverage this national baseline dataset for initial model training without any proprietary data collection cost.</p>
+        </div>
+
+        <h2>🌱 Soil Health &amp; Real-Time Field Data</h2>
+        <p>Unlike satellite data (which captures what a farm looks like from space), soil health data reveals what is happening below the surface — the biological and chemical reality that determines actual crop outcomes. URBARA captures this through a combination of field IoT sensors and Dr. Bidisha Bhowal's proprietary soil microbiome testing protocols.</p>
+        <ul>
+          <li><strong>IoT Soil Sensors:</strong> Deployed at key field points to continuously measure soil pH, moisture, electrical conductivity, and temperature. Data streams directly into the URBARA Agentic AI engine via NB-IoT or LoRa wireless.</li>
+          <li><strong>Soil Microbiome Sequencing:</strong> ICAR-NBAIM's Indian Soil Microbiome Project has catalogued microbial diversity across India's agro-ecological regions. Dr. Bidisha's research applies NGS (Next-Generation Sequencing) to profile the specific bacterial and fungal consortia that determine nitrogen fixation efficiency and disease suppression capability in specific soil types.</li>
+          <li><strong>Strategic Value:</strong> URBARA's soil microbiome database — built farm by farm — becomes a proprietary, compounding dataset that no competitor can replicate without years of identical fieldwork. This is the core biological moat.</li>
+        </ul>
+
+        <h2>📊 Personalised Actionable Agri Insights</h2>
+        <p>Raw data has no value to a farmer. URBARA's core intellectual resource is the <strong>AI pipeline that converts raw multi-modal data into a single, actionable prescription</strong> in the farmer's local language. This pipeline is built on three proprietary components:</p>
+        <ul>
+          <li><strong>GxE Mathematical Models (Dr. Rajkrishna):</strong> Genotype × Environment interaction models predict how a specific crop variety will perform in specific soil and climate conditions — enabling variety-level recommendations, not just generic crop choices.</li>
+          <li><strong>Hesitant Fuzzy Set Algorithms:</strong> Applied to supply chain routing and logistics decisions where multiple conflicting criteria exist simultaneously (e.g., "minimize cost" vs. "maximize freshness" vs. "avoid road uncertainty"). These are published academic methodologies from Dr. Rajkrishna's research, now applied operationally.</li>
+          <li><strong>Agentic AI Orchestration:</strong> An LLM-based agent continuously monitors all data streams and proactively pushes prescriptive alerts — not waiting for the farmer to ask, but anticipating the next critical field decision.</li>
+        </ul>
+
+        <h2>📦 Real-Time API: Market &amp; Logistics Data</h2>
+        <p>URBARA integrates live market intelligence to ensure that agronomic decisions are always synchronized with economic reality. There is no point advising a farmer to harvest paddy on Tuesday if the nearest mandi will have the lowest prices that week.</p>
+        <table>
+          <tr><th>API / Data Source</th><th>Data Provided</th><th>Decision Enabled</th></tr>
+          <tr><td>e-NAM API (1,389 mandis)</td><td>Real-time bid prices, commodity arrivals, daily price trends</td><td>Optimal mandi routing, harvest timing recommendations</td></tr>
+          <tr><td>DeHaat / Agri Logistics APIs</td><td>Vehicle availability, route conditions, transport cost estimates</td><td>Cost-optimal farm-to-mandi logistics scheduling</td></tr>
+          <tr><td>India Meteorological Dept (IMD)</td><td>7-day hyper-local weather forecasts, rainfall probability</td><td>Spray scheduling, irrigation planning, harvest windows</td></tr>
+          <tr><td>FMCG Demand Signals</td><td>B2B buyer procurement calendars, grade specifications</td><td>Premium market routing for certified-quality produce</td></tr>
+        </table>
+        <div class="callout green">
+          <p>📈 <strong>Source:</strong> e-NAM (October 2024) — The platform has recorded cumulative trades worth <strong>₹3.79 lakh crore</strong> across 1,389 integrated mandis with 1.78 crore registered farmers. URBARA's API integration plugs directly into this live price-discovery engine.</p>
+        </div>
+
+        <h2>🤖 LLMs &amp; Agentic AI + ☁️ Cloud Infrastructure</h2>
+        <p>The AI engine running URBARA's decision layer requires world-class cloud infrastructure. Rather than building proprietary data centres, URBARA uses a managed, API-first cloud strategy that scales with revenue:</p>
+        <ul>
+          <li><strong>Google Cloud / Vertex AI:</strong> Model training, satellite data processing, and production API hosting.</li>
+          <li><strong>OpenAI / Gemini APIs:</strong> Powering the Agentic AI orchestration layer — the LLM that synthesises data and generates prescriptive outputs in Hindi, Bengali, and other regional languages.</li>
+          <li><strong>Microsoft FarmBeats:</strong> Edge AI integration — running lightweight inference models directly on on-farm IoT devices without requiring internet connectivity for core decisions.</li>
+        </ul>
+
+        <h2>🦾 Robotic Hardware + 🔬 Bio Research Labs</h2>
+        <p>The physical execution arms of URBARA's AI prescriptions are agricultural robots and drones, deployed through a Robotics-as-a-Service (RaaS) model:</p>
+        <ul>
+          <li><strong>Drones (via Garuda Aerospace, IdeaForge):</strong> Research shows drone precision spraying covers 10–15 acres per hour vs. 1–2 acres per manual labourer, while reducing water use by 80–90% and chemical use by 20–50%. URBARA does not own the drone fleet; it coordinates with certified drone operators and OEMs, maintaining the asset-light model.</li>
+          <li><strong>IIT Delhi &amp; ICAR Bio-Labs:</strong> URBARA's founders have access to advanced molecular biology infrastructure at IIT Delhi for NGS sequencing, pathogen profiling, and bio-quality testing — a resource that would cost crores to build independently, but is available as part of academic incubation.</li>
+        </ul>
+
+      </div>
+      <div class="sidebar">
+        <div class="stat-card"><div class="stat-val">60M+</div><div class="stat-lbl">Farmer IDs on AgriStack (2025)</div></div>
+        <div class="stat-card"><div class="stat-val">110M</div><div class="stat-lbl">Target Farmer IDs by 2026-27</div></div>
+        <div class="stat-card"><div class="stat-val">1,389</div><div class="stat-lbl">Mandis live on e-NAM (Oct 2024)</div></div>
+        <div class="stat-card"><div class="stat-val">₹3.79L Cr</div><div class="stat-lbl">Cumulative trade value on e-NAM</div></div>
+        <div class="stat-card"><div class="stat-val">253M</div><div class="stat-lbl">Farm plots digitally mapped (Rabi 2024-25)</div></div>
+        <div class="tag-cloud">
+          <h4>Resource Types</h4>
+          <span class="tag">📡 Data &amp; Satellite</span>
+          <span class="tag">🤖 AI &amp; Agentic</span>
+          <span class="tag">🦾 Robotics</span>
+          <span class="tag">🔬 Bio-Lab Access</span>
+          <span class="tag">☁️ Cloud Infra</span>
+          <span class="tag">🧠 2 PhDs Moat</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URBARA — Cost Structure | Deep Dive</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    
+    @keyframes shimmer{0%{background-position:0% center}100%{background-position:200% center}}
+    .ur-navbar{background:linear-gradient(135deg,#061a10 0%,#0d2818 40%,#0a2030 100%);border-radius:16px;padding:14px 24px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 8px 32px rgba(0,0,0,.4),0 0 0 1px rgba(56,239,125,.1);position:relative;overflow:hidden;gap:20px}
+    .ur-navbar::before{content:'';position:absolute;top:-50px;left:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(56,239,125,.08) 0%,transparent 65%);pointer-events:none}
+    .ur-nav-left{display:flex;align-items:center;gap:16px;position:relative;z-index:1}
+    .ur-logo{width:48px;height:48px;border-radius:12px;background:linear-gradient(145deg,rgba(56,239,125,.15),rgba(6,182,212,.1));border:1px solid rgba(56,239,125,.3);display:flex;align-items:center;justify-content:center}
+    .ur-logo svg{width:28px;height:28px}
+    .ur-brand{display:flex;flex-direction:column}
+    .ur-brand-title{font-size:22px;font-weight:900;letter-spacing:.05em;line-height:1.1;background:linear-gradient(90deg,#38ef7d 0%,#11d4c4 40%,#7aff9e 70%,#38ef7d 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shimmer 3.5s linear infinite;margin-bottom:4px}
+    .ur-brand-sub{font-size:10px;font-weight:600;color:rgba(56,239,125,.85);letter-spacing:.03em;display:inline-flex;align-items:center;gap:4px}
+    .ur-nav-menu{display:flex;align-items:center;gap:8px;position:relative;z-index:1;flex-wrap:wrap;justify-content:flex-end}
+    .ur-menu-link{color:rgba(255,255,255,.7);text-decoration:none;padding:8px 14px;border-radius:10px;font-size:12px;font-weight:600;transition:all .2s ease;border:1px solid transparent}
+    .ur-menu-link:hover{color:#38ef7d;background:rgba(56,239,125,.08);border-color:rgba(56,239,125,.2)}
+    .ur-menu-link.active{color:#38ef7d;background:rgba(56,239,125,.12);border-color:rgba(56,239,125,.3);font-weight:700}
+    @media(max-width:768px){.ur-navbar{flex-direction:column;align-items:flex-start}.ur-nav-menu{width:100%;justify-content:flex-start}}
+    .back-btn{display:inline-flex;align-items:center;gap:8px;color:#94a3b8;text-decoration:none;font-size:14px;font-weight:600;margin-bottom:24px;transition:color .2s}
+    .back-btn:hover{color:#38ef7d}
+    .page-wrap{max-width:1050px;margin:0 auto}
+    .hero{width:100%;height:260px;object-fit:cover;border-radius:16px;margin-bottom:32px;border:1px solid rgba(239,68,68,.2);box-shadow:0 0 40px rgba(239,68,68,.1)}
+    .page-header{display:flex;align-items:center;gap:20px;margin-bottom:36px;padding-bottom:28px;border-bottom:1px dashed #334155}
+    .emoji-box{font-size:48px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:16px;padding:16px;line-height:1;flex-shrink:0}
+    h1{font-size:34px;font-weight:800;color:#fff;margin-bottom:6px}
+    .page-sub{color:#f87171;font-size:16px;font-weight:600}
+    .layout{display:grid;grid-template-columns:1fr 320px;gap:40px}
+    @media(max-width:860px){.layout{grid-template-columns:1fr}}
+    .content h2{font-size:20px;font-weight:800;color:#fff;margin:36px 0 14px;padding-left:14px;border-left:4px solid #ef4444}
+    .content h2:first-child{margin-top:0}
+    .content p{font-size:14.5px;line-height:1.85;color:#cbd5e1;margin-bottom:18px}
+    .content ul{list-style:none;padding:0;margin-bottom:18px}
+    .content ul li{font-size:14px;line-height:1.75;color:#cbd5e1;padding:8px 0 8px 28px;position:relative;border-bottom:1px solid rgba(255,255,255,.04)}
+    .content ul li::before{content:"→";position:absolute;left:0;color:#f87171;font-weight:700}
+    table{width:100%;border-collapse:collapse;margin:22px 0;font-size:13px;border-radius:10px;overflow:hidden;border:1px solid rgba(239,68,68,.2)}
+    th{background:rgba(239,68,68,.1);color:#f87171;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:13px 16px;text-align:left}
+    td{padding:12px 16px;color:#cbd5e1;border-bottom:1px solid rgba(255,255,255,.05)}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:rgba(239,68,68,.03)}
+    .callout{border-radius:12px;padding:18px 20px;margin:22px 0;border-left:4px solid}
+    .callout.red{background:rgba(239,68,68,.08);border-color:#ef4444}
+    .callout.green{background:rgba(34,197,94,.07);border-color:#22c55e}
+    .callout.amber{background:rgba(245,158,11,.07);border-color:#f59e0b}
+    .callout p{margin:0;font-size:14px}
+    .sidebar{height:fit-content;position:sticky;top:24px}
+    .stat-card{background:#0f172a;border:1px solid rgba(239,68,68,.2);border-radius:12px;padding:20px;margin-bottom:16px;text-align:center}
+    .stat-val{font-size:28px;font-weight:900;color:#f87171;line-height:1;margin-bottom:6px}
+    .stat-lbl{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+    .tag-cloud{background:#0f172a;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:18px}
+    .tag-cloud h4{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;margin-bottom:12px;font-weight:700}
+    .tag{display:inline-block;font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px;margin:4px 4px 4px 0;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);color:#fbbf24}
+  </style>
+</head>
+<body>
+
+<link rel="stylesheet" href="assets/urbara.css">
+
+<script src="assets/header.js"></script>
+
+  
+  <div class="page-wrap">
+    <a href="urbara_business_model.html" class="back-btn">⬅ Back to Business Model Canvas</a>
+    <img src="assets/cost_hero.png" class="hero" alt="Cost Structure">
+    <div class="page-header">
+      <div class="emoji-box">💸</div>
+      <div>
+        <h1>Cost Structure</h1>
+        <div class="page-sub">Asset-Light Model · Grant-Funded R&amp;D · Zero Warehouse CAPEX</div>
+      </div>
+    </div>
+    <div class="layout">
+      <div class="content">
+
+        <h2>🔬 R&amp;D: Math Algorithm Optimisation &amp; Bio-Lab Testing</h2>
+        <p>URBARA's single most important cost centre is also its most strategically defensible one: the research and development of proprietary mathematical models and biological datasets that no competitor can shortcut their way into replicating. This R&amp;D cost is explicitly designed to be covered by non-dilutive government grants, preserving equity for growth-stage scale.</p>
+        <ul>
+          <li><strong>Mathematical Algorithm Development (Dr. Rajkrishna):</strong> Development and validation of GxE yield prediction models, Hesitant Fuzzy Set supply chain optimisation algorithms, and the Agentic AI orchestration engine. These algorithms require continuous iteration against real field data.</li>
+          <li><strong>Bio-Lab Testing (Dr. Bidisha):</strong> Soil microbiome NGS sequencing costs (approximately ₹3,000–₹8,000 per sample for metagenomics analysis), molecular quality testing reagents, and pathogen profiling protocol development. Volume drives unit cost down as the lab throughput increases.</li>
+          <li><strong>Proof-of-Concept (PoC) Farm Trials:</strong> Controlled field trials at 3–5 pilot farms to generate validated data proving the AI prescriptions outperform conventional methods — required evidence for both grant applications and early FPO contracts.</li>
+        </ul>
+        <div class="callout green">
+          <p>🏦 <strong>Grant Coverage Strategy:</strong> BIRAC's Biotechnology Ignition Grant (BIG) provides up to <strong>₹50 Lakhs</strong> as non-dilutive, milestone-based grant-in-aid for exactly this type of deep-tech, PhD-led, biotech R&amp;D (Source: BIRAC, 2024). NIDHI-PRAYAS and MeiTY's TIDE 2.0 scheme provide an additional ₹5–₹25 Lakhs for software/AI technology proof-of-concept at IIT-incubated startups. Combined, these grants can cover the entire early R&amp;D phase without any equity dilution.</p>
+        </div>
+
+        <h2>📡 Data &amp; Satellite API Subscription Costs</h2>
+        <p>Real-time data is URBARA's operational fuel. Satellite imagery, weather forecasts, and market price APIs have ongoing subscription costs, but URBARA's architecture is strategically designed to minimise these:</p>
+        <table>
+          <tr><th>Data Source</th><th>Cost Model</th><th>Mitigation Strategy</th></tr>
+          <tr><td>ISRO Bhuvan (Satellite Imagery)</td><td>Low / Free for academic/startup use under ISRO's data access policy</td><td>Government DPI — available at minimal cost as part of AgriStack ecosystem</td></tr>
+          <tr><td>AgriStack / PM-KISAN APIs</td><td>Free (Government DPI)</td><td>Partnering with FIIT-IITD provides formal access channel as an incubated startup</td></tr>
+          <tr><td>e-NAM Market Price API</td><td>Free (Government DPI)</td><td>Public API — no licensing cost; real-time price data free to access</td></tr>
+          <tr><td>SatSure / Commercial Data</td><td>Paid per-API-call or subscription</td><td>Used selectively only for high-value B2B export consulting clients where premium data justifies cost</td></tr>
+          <tr><td>IMD Weather API</td><td>Free (Government)</td><td>Official IMD API; supplemented by private weather APIs only for high-resolution hyper-local forecasts</td></tr>
+        </table>
+        <p>By centering URBARA's data strategy on Government Digital Public Infrastructure (AgriStack, e-NAM, ISRO), the platform maintains near-zero data acquisition costs at scale — a massive structural cost advantage over private data-dependent competitors.</p>
+
+        <h2>☁️ Cloud Compute &amp; Agentic AI Infrastructure</h2>
+        <p>The cloud compute costs are URBARA's primary variable operational expense — they scale directly with usage (acres served, prescriptions generated, satellite images processed). This is the ideal cost structure: near-zero at ideation stage, growing only as revenue grows.</p>
+        <ul>
+          <li><strong>Model Training Costs:</strong> One-time GPU compute costs for training GxE and quality grading models. Google Cloud's research credits program for academic startups significantly subsidises these costs at the early stage.</li>
+          <li><strong>Inference/API Call Costs:</strong> OpenAI / Gemini API costs scale per prescription generated. At ₹150–₹300 per LLM-generated prescriptive advisory, the marginal cost per farmer interaction is negligible relative to the value delivered.</li>
+          <li><strong>Satellite Processing:</strong> Computer vision processing of ISRO Bhuvan imagery is compute-intensive. Cloud spot-instance pricing and batch-processing optimisation keeps this cost variable rather than fixed.</li>
+        </ul>
+
+        <h2>🦾 Robotic Hardware: Drones, Rovers &amp; IoT Sensors</h2>
+        <p>URBARA maintains a <strong>zero-hardware-ownership</strong> policy for its physical AI execution layer. This is the single most important cost structure decision that keeps URBARA asset-light:</p>
+        <ul>
+          <li><strong>Drone RaaS Model:</strong> URBARA coordinates with certified Garuda Aerospace / IdeaForge drone operators on a per-acre fee basis. URBARA earns margin between what the farmer pays and what the drone operator charges — without ever owning a drone. The drone operator bears all CAPEX, maintenance, and regulatory compliance costs.</li>
+          <li><strong>IoT Sensor Leasing:</strong> At pilot stage, IoT soil sensors are leased rather than purchased — deploying them at FPO partner farms as "demo units" that simultaneously generate valuable training data for the AI models.</li>
+        </ul>
+        <div class="callout amber">
+          <p>💡 <strong>Key Principle:</strong> Zero Warehouse CAPEX. Zero Drone Fleet CAPEX. Zero Cold-Storage CAPEX. URBARA owns no physical infrastructure. Every physical service is delivered through partner networks. This keeps the balance sheet clean and margins high — following the proven playbook of asset-light deep-tech platforms like Uber (no cars) and Airbnb (no hotels).</p>
+        </div>
+
+        <h2>🧑‍💻 Tech Talent: AI Engineers &amp; Molecular Biologists</h2>
+        <p>The scarcest and most valuable resource in URBARA is human expertise. The founding team brings dual-PhD capability — Computational Mathematics and Plant Molecular Biology — but scaling the team requires hiring equally specialised profiles:</p>
+        <table>
+          <tr><th>Role</th><th>Estimated Salary (India)</th><th>Hiring Strategy</th></tr>
+          <tr><td>Senior AI/ML Engineer (LLM Specialist)</td><td>₹25–₹45 LPA</td><td>IIT/IISc graduates; equity-heavy compensation to attract talent at ideation stage</td></tr>
+          <tr><td>Molecular Biologist / Bioinformatician</td><td>₹12–₹22 LPA</td><td>ICAR/university research collaborations; jointly supervised PhD students at IIT Delhi</td></tr>
+          <tr><td>Agronomy Field Officers</td><td>₹5–₹8 LPA</td><td>Agricultural university graduates; local language speakers for ground-truth validation</td></tr>
+          <tr><td>Full-Stack Developer</td><td>₹10–₹18 LPA</td><td>WhatsApp/IVR integration, farmer-facing mobile interface development</td></tr>
+        </table>
+
+        <h2>📋 Field Operations &amp; Ground-Truth Data Collection</h2>
+        <p>Field operations — physical farm visits, soil sample collection, FPO onboarding, and Kisan Mela demonstrations — are the highest-touch cost category but the most critical for building farmer trust and generating the ground-truth training data that improves model accuracy.</p>
+        <p>URBARA structures this cost as both a necessary operational expense and a data investment: every field visit generates geo-tagged, validated soil, crop, and yield data that compounds the value of the AI models over time, creating an increasing-returns data flywheel.</p>
+
+      </div>
+      <div class="sidebar">
+        <div class="stat-card"><div class="stat-val">₹50L</div><div class="stat-lbl">Max BIRAC BIG grant (non-dilutive, 18 months)</div></div>
+        <div class="stat-card"><div class="stat-val">₹0</div><div class="stat-lbl">Warehouse CAPEX — zero physical infrastructure</div></div>
+        <div class="stat-card"><div class="stat-val">Free</div><div class="stat-lbl">AgriStack / e-NAM / ISRO data — government DPI</div></div>
+        <div class="stat-card"><div class="stat-val">Grants</div><div class="stat-lbl">BIRAC, NIDHI, MeiTY fund R&amp;D — ₹0 equity dilution</div></div>
+        <div class="tag-cloud">
+          <h4>Cost Types</h4>
+          <span class="tag">🔬 Bio-Tech R&amp;D</span>
+          <span class="tag">🧑‍💻 High-End Talent</span>
+          <span class="tag">☁️ Cloud Infra</span>
+          <span class="tag">💡 Asset-Light Ops</span>
+          <span class="tag">📡 Data APIs</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
