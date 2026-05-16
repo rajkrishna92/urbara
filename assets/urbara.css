@@ -624,11 +624,13 @@ button, input, textarea, select {
     min-width: 0;
   }
   .ur-hdr-title {
-    font-size: 18px;
-    flex-wrap: wrap;
+    font-size: clamp(11px, 3.5vw, 18px);
+    white-space: nowrap;
     justify-content: flex-start;
   }
   .ur-hdr-tag {
+    font-size: clamp(7px, 2.2vw, 10px);
+    white-space: nowrap;
     text-align: left;
     width: auto;
   }
@@ -667,6 +669,7 @@ button, input, textarea, select {
   }
   .ur-hdr-toggle {
     display: inline-flex;
+    flex-shrink: 0;
     margin-left: auto;
     border: none;
     background: rgba(56, 239, 125, 0.12);
@@ -698,6 +701,7 @@ button, input, textarea, select {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: space-between;
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 14px;
@@ -758,7 +762,9 @@ button, input, textarea, select {
   .ur-hdr-dropdown:hover .ur-hdr-submenu,
   .ur-hdr-dropdown:focus-within .ur-hdr-submenu {
     transform: none;
+    display: none;
   }
+  .ur-hdr-dropdown.open .ur-hdr-submenu,
   .ur-hdr-dropdown.open:hover .ur-hdr-submenu,
   .ur-hdr-dropdown.open:focus-within .ur-hdr-submenu {
     display: flex;

@@ -113,6 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
         headerToggle.addEventListener('click', () => {
             const isOpen = headerMenu.classList.toggle('open');
             headerToggle.classList.toggle('open', isOpen);
+            headerToggle.innerHTML = isOpen ? '✕' : '☰';
             if (!isOpen) {
                 closeOpenSubmenus();
             }
@@ -123,6 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!headerMenu.contains(target) && !headerToggle.contains(target)) {
                 headerMenu.classList.remove('open');
                 headerToggle.classList.remove('open');
+                headerToggle.innerHTML = '☰';
                 closeOpenSubmenus();
             }
         });
