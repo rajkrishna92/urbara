@@ -104,7 +104,8 @@ button, input, textarea, select {
   flex-wrap: wrap;
   min-width: 0;
   padding: 14px 40px;
-  max-width: 1400px;
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -679,8 +680,7 @@ button, input, textarea, select {
   .ur-hdr-toggle:hover {
     background: rgba(56, 239, 125, 0.2);
   }
-  .ur-hdr-menu > .ur-hdr-link,
-  .ur-hdr-dropdown > .ur-hdr-link {
+  .ur-hdr-menu > .ur-hdr-link {
     width: 100%;
     display: inline-flex;
     justify-content: space-between;
@@ -691,18 +691,44 @@ button, input, textarea, select {
     border-radius: 14px;
     color: #ffffff;
   }
+  .ur-hdr-dropdown {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 0 18px;
+  }
+  .ur-hdr-dropdown > .ur-hdr-link {
+    width: auto;
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 8px 14px 0;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    flex: 0 1 auto;
+  }
   .ur-hdr-dropdown .caret {
     display: none;
   }
   .ur-hdr-submenu-toggle {
+    position: relative;
+    height: 34px;
+    width: 34px;
     display: inline-flex;
-    margin-left: auto;
+    align-items: center;
+    justify-content: center;
     border: none;
-    background: transparent;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
     color: inherit;
     font-size: 1.1rem;
-    padding: 0 8px;
     cursor: pointer;
+    margin-left: 0;
   }
   .ur-hdr-dropdown .ur-hdr-link {
     padding-right: 8px;
@@ -725,6 +751,15 @@ button, input, textarea, select {
     gap: 0;
   }
   .ur-hdr-dropdown.open .ur-hdr-submenu {
+    display: flex;
+    transform: none;
+  }
+  .ur-hdr-dropdown:hover .ur-hdr-submenu,
+  .ur-hdr-dropdown:focus-within .ur-hdr-submenu {
+    transform: none;
+  }
+  .ur-hdr-dropdown.open:hover .ur-hdr-submenu,
+  .ur-hdr-dropdown.open:focus-within .ur-hdr-submenu {
     display: flex;
   }
   .ur-hdr-submenu a {
