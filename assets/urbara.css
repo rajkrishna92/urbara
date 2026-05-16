@@ -694,6 +694,11 @@ button, input, textarea, select {
     border-radius: 14px;
     color: #ffffff;
   }
+  .ur-hdr-menu > .ur-hdr-link.active {
+    background: rgba(56, 239, 125, 0.15);
+    border-color: rgba(56, 239, 125, 0.55);
+    box-shadow: 0 0 14px var(--color-accent-glow), inset 0 0 8px rgba(56,239,125,0.05);
+  }
   .ur-hdr-dropdown {
     width: 100%;
     position: relative;
@@ -706,6 +711,11 @@ button, input, textarea, select {
     border-radius: 14px;
     padding: 0 18px;
   }
+  .ur-hdr-dropdown:has(> .ur-hdr-link.active) {
+    background: rgba(56, 239, 125, 0.15);
+    border-color: rgba(56, 239, 125, 0.55);
+    box-shadow: 0 0 14px var(--color-accent-glow), inset 0 0 8px rgba(56,239,125,0.05);
+  }
   .ur-hdr-dropdown > .ur-hdr-link {
     width: auto;
     display: inline-flex;
@@ -715,6 +725,11 @@ button, input, textarea, select {
     border: none;
     color: #ffffff;
     flex: 0 1 auto;
+  }
+  .ur-hdr-dropdown > .ur-hdr-link.active {
+    box-shadow: none;
+    background: transparent;
+    border: none;
   }
   .ur-hdr-dropdown .caret {
     display: none;
