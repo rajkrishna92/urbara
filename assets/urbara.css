@@ -617,6 +617,7 @@ button, input, textarea, select {
     align-items: center;
     justify-content: space-between;
     gap: 10px;
+    flex-wrap: nowrap;
   }
   .ur-hdr-brand {
     justify-content: flex-start;
