@@ -108,11 +108,11 @@
     }
 
     body {
-      /* Fit everything on single page without scrolling */
-      overflow: hidden;
+      /* Fit everything on single page when possible, allow scrolling if needed */
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
-      height: 100dvh;
+      min-height: 100dvh;
     }
 
 
@@ -287,7 +287,7 @@
       }
 
       .hero-section {
-        height: calc(100dvh - 70px);
+        min-height: calc(100dvh - 70px);
       }
 
       .hero-desc {
