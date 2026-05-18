@@ -44,6 +44,8 @@
     /* Snap Scrolling Container */
     .deck-container {
       flex: 1;
+      height: 100%;
+      min-height: 0;
       overflow-y: scroll;
       overflow-x: hidden;
       scroll-snap-type: y mandatory;
@@ -53,12 +55,12 @@
     /* Individual Slide */
     .slide {
       min-height: 100%;
-      height: max-content;
+      height: auto;
       width: 100%;
       scroll-snap-align: start;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       padding: 2rem;
       position: relative;
@@ -84,6 +86,7 @@
       z-index: 1;
       max-width: 1000px;
       width: 100%;
+      margin: auto 0;
     }
 
     /* Typography */
@@ -254,12 +257,11 @@
       }
 
       .slide {
-        padding: 1rem;
-        height: max-content;
+        padding: 1.5rem;
+        height: auto;
         min-height: 100%;
-        justify-content: flex-start;
-        padding-top: 4rem;
-        padding-bottom: 3rem;
+        padding-top: 5rem;
+        padding-bottom: 4rem;
       }
 
       .scroll-hint,
