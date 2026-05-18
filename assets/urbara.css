@@ -153,7 +153,7 @@ select {
   align-items: center;
   flex-wrap: wrap;
   min-width: 0;
-  padding: 14px 40px;
+  padding: 5px 30px;
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
@@ -737,11 +737,12 @@ select {
    ========================================== */
 .ur-footer {
   text-align: center;
-  padding: 40px 24px;
+  padding: 14px 24px;
   color: var(--color-text-dim);
-  font-size: 12px;
+  font-size: 11px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
-  margin-top: 60px;
+  margin-top: 0;
+  flex-shrink: 0;
 }
 
 .ur-footer a {
