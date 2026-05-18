@@ -29,21 +29,21 @@
 
     body,
     html {
-      height: 100%;
+      height: 100dvh;
       background: var(--bg-dark);
       color: var(--text-main);
       overflow: hidden !important;
       /* Hide normal scrollbar */
     }
 
-    /* Hide footer on full-screen slide deck */
-    .ur-footer {
-      display: none !important;
+    body {
+      display: flex;
+      flex-direction: column;
     }
 
     /* Snap Scrolling Container */
     .deck-container {
-      height: calc(100vh - 76px);
+      flex: 1;
       overflow-y: scroll;
       overflow-x: hidden;
       scroll-snap-type: y mandatory;
@@ -52,7 +52,8 @@
 
     /* Individual Slide */
     .slide {
-      height: calc(100vh - 76px);
+      min-height: 100%;
+      height: max-content;
       width: 100%;
       scroll-snap-align: start;
       display: flex;
@@ -254,10 +255,11 @@
 
       .slide {
         padding: 1rem;
-        height: auto;
-        min-height: 100vh;
+        height: max-content;
+        min-height: 100%;
         justify-content: flex-start;
         padding-top: 4rem;
+        padding-bottom: 3rem;
       }
 
       .scroll-hint,
