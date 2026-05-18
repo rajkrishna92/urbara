@@ -11,6 +11,7 @@ const headerHTML = `
       <button class="ur-hdr-toggle" type="button" aria-label="Open menu">☰</button>
       <div class="ur-hdr-menu">
         <a href="index.html" class="ur-hdr-link" data-nav="home">Home</a>
+        <a href="urbara_pitchdeck.html" class="ur-hdr-link" data-nav="pitchdeck">Pitch Deck</a>
         <div class="ur-hdr-dropdown">
           <a href="urbara_business_model.html" class="ur-hdr-link" data-nav="business">Business Model</a><!-- <span class="caret">▼</span>-->
           <!-- <button type="button" class="ur-hdr-submenu-toggle" aria-expanded="false" aria-label="Toggle Business Model submenu">▾</button> 
@@ -74,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Map pages to their respective active navigation tab
     const activeMap = {
         'index.html': 'home',
+        'urbara_pitchdeck.html': 'pitchdeck',
         'urbara_business_model.html': 'business',
         'urbara_channels.html': 'business',
         'urbara_cost_structure.html': 'business',

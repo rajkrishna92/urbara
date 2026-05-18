@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URBARA | Investor Pitch Deck</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/urbara.css">
+    <style>
+        :root {
+            --bg-dark: #061a10;
+            --bg-gradient: linear-gradient(135deg, #061a10 0%, #0d2818 40%, #0a2030 100%);
+            --accent-green: #38ef7d;
+            --accent-blue: #11d4c4;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-bg: rgba(15, 23, 42, 0.6);
+            --card-border: rgba(56, 239, 125, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            overflow: hidden !important; /* Hide normal scrollbar */
+        }
+
+        /* Hide footer on full-screen slide deck */
+        .ur-footer {
+            display: none !important;
+        }
+
+        /* Snap Scrolling Container */
+        .deck-container {
+            height: calc(100vh - 76px);
+            overflow-y: scroll;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        /* Individual Slide */
+        .slide {
+            height: calc(100vh - 76px);
+            width: 100%;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            background: var(--bg-gradient);
+        }
+
+        /* Subtle background glow */
+        .slide::before {
+            content: '';
+            position: absolute;
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, rgba(56,239,125,0.05) 0%, transparent 60%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Grid Layouts */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(56, 239, 125, 0.15);
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            color: var(--accent-green);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card p, .card li {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        ul { list-style: none; }
+        li::before { content: '• '; color: var(--accent-green); font-weight: bold; }
+
+        /* Stats Highlights */
+        .stat-box {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            height: 100%;
+        }
+        .stat-box h4 {
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+        .stat-box p { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* Slide Counter */
+        .slide-counter {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 2rem;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.3);
+            font-weight: 600;
+            z-index: 10;
+        }
+
+        /* Navigation Hint */
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            animation: bounce 2s infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-10px) translateX(-50%); }
+            60% { transform: translateY(-5px) translateX(-50%); }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            .slide { padding: 1rem; height: auto; min-height: 100vh; justify-content: flex-start; padding-top: 4rem; }
+            .scroll-hint, .slide-counter { display: none; }
+        }
+        
+        .table-custom { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .table-custom th, .table-custom td { padding: 1rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .table-custom th { color: var(--accent-blue); font-weight: 700; }
+        .table-custom td { color: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+<script src="assets/header.js"></script>
+
+<div class="deck-container">
+
+    <!-- Slide 1: The Hook -->
+    <section class="slide">
+        <div class="content" style="text-align: center;">
+            <img src="assets/logo_tag.png" alt="URBARA Brand Logo" style="width: clamp(200px, 35vw, 360px); max-width: 100%; height: auto; margin-bottom: 1rem; animation: float 6s ease-in-out infinite; filter: drop-shadow(0 0 30px rgba(56, 239, 125, 0.2));">
+            <h1 style="font-size: clamp(24px, 5vw, 38px); line-height: 1.1; margin-bottom: 12px; background: none; -webkit-text-fill-color: initial;">
+                <span style="background: linear-gradient(90deg, #38ef7d 0%, #11d4c4 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">AI + Biology + Mathematics</span>
+            </h1>
+            <p style="font-size: clamp(14px, 2.5vw, 18px); color: #94a3b8; margin-bottom: 1.5rem;">We use molecular biology and AI to deliver precision farming intelligence — from soil health to market pricing — for smallholder farmers in India.</p>
+            <div class="card" style="display: inline-block; text-align: left; padding: 1.2rem 2rem;">
+                <p style="margin-bottom: 0.4rem;"><strong style="color: #38ef7d;">Dr. Rajkrishna Mondal</strong> — PhD Computational Mathematics &amp; AI Researcher</p>
+                <p><strong style="color: #11d4c4;">Bidisha Bhowal</strong> — PhD Plant Molecular Biology &amp; Biotechnology (ICGEB)</p>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <div style="display: inline-block; padding: 0.4rem 1rem; background: rgba(56,239,125,0.1); border-radius: 20px; color: #38ef7d; font-size: 0.85rem; font-weight: 700;">🚀 Ideation Phase · Seeking Incubation &amp; R&amp;D Support</div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-hint">↓ Scroll ↓</div>
+    </section>
+
+    <!-- Slide 2: The Problem -->
+    <section class="slide">
+        <div class="content">
+            <h2>The Problem</h2>
+            <p class="subtitle">Indian farmers are losing on every front — inputs, outputs, and prices.</p>
+            <div class="grid-2">
+                <div class="card" style="border-color: rgba(239,68,68,0.3);">
+                    <h3 style="color: #f87171;">❌ On the Farm</h3>
+                    <ul>
+                        <li><strong>Blind spraying:</strong> Farmers use chemicals without knowing what pest or disease is present, degrading soil and increasing costs.</li>
+                        <li><strong>Labour crisis:</strong> Manual transplantation and harvesting are becoming unviable due to shortage and cost of farm labour.</li>
+                        <li><strong>No crop planning:</strong> Decisions on crop rotation are based on habit, not data, leading to poor yields.</li>
+                    </ul>
+                </div>
+                <div class="card" style="border-color: rgba(239,68,68,0.3);">
+                    <h3 style="color: #f87171;">❌ At the Market</h3>
+                    <ul>
+                        <li><strong>No quality traceability:</strong> Farmers cannot prove the quality of their produce, so they get low, generic prices.</li>
+                        <li><strong>Fragmented supply chains:</strong> Up to 30% of harvest is lost due to poor logistics and lack of direct market linkage.</li>
+                        <li><strong>Existing tech is shallow:</strong> Current agri-apps offer generic advice — not molecular-level, location-specific intelligence.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: The Solution -->
+    <section class="slide">
+        <div class="content">
+            <h2>Our Solution</h2>
+            <p class="subtitle">A "Phygital" Agri-OS — molecular science delivered via AI, drones, and a smartphone.</p>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>🌱 Bio-Diagnostics</h3>
+                    <p>Soil microbiome testing and crop disease profiling. We replace guesswork with peer-reviewed biology, identifying the <em>exact</em> pathogen before prescribing any treatment.</p>
+                </div>
+                <div class="card">
+                    <h3>🤖 Agentic AI Advisory</h3>
+                    <p>Math-driven GxE (Genotype × Environment) models generate hyper-local crop rotation plans and precision spray schedules — delivered via WhatsApp and IVR in local dialects.</p>
+                </div>
+                <div class="card">
+                    <h3>📊 Market Intelligence</h3>
+                    <p>Computer vision quality grading at the Mandi and fuzzy-logic supply chain routing help farmers prove quality and secure premium e-NAM prices.</p>
+                </div>
+            </div>
+            <p style="text-align:center; margin-top:1.5rem; font-size: 0.9rem; color: #94a3b8;">10× better than generic advice because we act on <em>molecular data</em>, not assumptions.</p>
+        </div>
+    </section>
+
+    <!-- Slide 4: Market Size -->
+    <section class="slide">
+        <div class="content">
+            <h2>Market Size &amp; Opportunity</h2>
+            <p class="subtitle">India's agritech transformation is underway. We are positioning at its core.</p>
+            <div class="grid-3" style="margin-bottom: 1.5rem;">
+                <div class="stat-box">
+                    <h4 style="color: #38ef7d; font-size: 1.3rem;">TAM</h4>
+                    <p style="font-weight: 700; color: #fff; font-size: 1rem; margin: 0.5rem 0;">All of Indian Agriculture</p>
+                    <p>140M+ farmer households; rapidly digitizing under AgriStack, e-NAM &amp; PM-KISAN frameworks.</p>
+                </div>
+                <div class="stat-box">
+                    <h4 style="color: #11d4c4; font-size: 1.3rem;">SAM</h4>
+                    <p style="font-weight: 700; color: #fff; font-size: 1rem; margin: 0.5rem 0;">Premium &amp; Export-Oriented Farmers</p>
+                    <p>Progressive FPOs, MRL-compliant exporters, and B2B food processors seeking traceable, quality raw supply.</p>
+                </div>
+                <div class="stat-box">
+                    <h4 style="color: #f59e0b; font-size: 1.3rem;">SOM</h4>
+                    <p style="font-weight: 700; color: #fff; font-size: 1rem; margin: 0.5rem 0;">Pilot Districts in West Bengal &amp; Odisha</p>
+                    <p>Our initial focus: smallholder paddy &amp; vegetable farmers in our home districts where we have deep local trust.</p>
+                </div>
+            </div>
+            <div class="card" style="text-align: center; padding: 1rem;">
+                <p>🌍 <strong>Why Now?</strong> — AgriStack has created 70M+ farmer digital IDs. 1,656 mandis are now on e-NAM. The data infrastructure is ready. We provide the intelligence layer on top.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Business Model -->
+    <section class="slide">
+        <div class="content">
+            <h2>Business Model</h2>
+            <p class="subtitle">Asset-light, recurring revenue — we earn when farmers earn more.</p>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>💡 Revenue Streams</h3>
+                    <ul>
+                        <li><strong>RaaS (Robotics-as-a-Service):</strong> Recurring per-acre fee for drone spraying and IoT sensor monitoring.</li>
+                        <li><strong>SaaS / API Licensing:</strong> Our quality grading and advisory platform licensed to agribusinesses and FPOs.</li>
+                        <li><strong>Consulting:</strong> High-margin "Zero-Residue" certification &amp; export advisory for B2B buyers.</li>
+                        <li><strong>Profit Sharing:</strong> A share of the premium price secured for FPOs via our quality certification.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🏗️ Why It Works</h3>
+                    <ul>
+                        <li><strong>Zero Warehouse Capex:</strong> Fully asset-light; no physical infrastructure required.</li>
+                        <li><strong>Recurring Revenue:</strong> Subscription and per-acre models create predictable cash flow.</li>
+                        <li><strong>High Switching Cost:</strong> Once farmers trust our molecular data, it is very hard to switch to a generic alternative.</li>
+                        <li><strong>Network Effects:</strong> More farmer data → better AI models → better advice → more farmers.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Traction -->
+    <section class="slide">
+        <div class="content">
+            <h2>Traction &amp; Milestones</h2>
+            <p class="subtitle">Ideation Phase — Built on strong academic foundations and real research.</p>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>✅ What We Have Done</h3>
+                    <ul>
+                        <li>Completed deep literature review on soil microbiome diagnostics and GxE modelling for Indian agroclimatic zones.</li>
+                        <li>Identified pilot FPO partners and farmer communities in West Bengal ready for early adoption.</li>
+                        <li>Developed the technical architecture and process flow for the Agri-OS platform.</li>
+                        <li>Engaged with e-NAM, AgriStack and ISRO Bhuvan data APIs for feasibility.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🎯 Next 12 Months (With Support)</h3>
+                    <ul>
+                        <li>Pilot soil microbiome testing on 50 farms in partnership with ICAR / IARI labs.</li>
+                        <li>Deploy V1 of the AI advisory model via WhatsApp for 200+ farmers.</li>
+                        <li>Validate the CV-based quality grading prototype at a single mandi.</li>
+                        <li>Apply for BIRAC BIG and NIDHI-PRAYAS grants for R&amp;D scaling.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Go-To-Market -->
+    <section class="slide">
+        <div class="content">
+            <h2>Go-To-Market Strategy</h2>
+            <p class="subtitle">Enter through trust, scale through data.</p>
+            <div class="grid-3">
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.8rem;">🤝</div>
+                    <h3 style="justify-content: center;">Phase 1: FPO Partnerships</h3>
+                    <p>Onboard 2–3 progressive FPOs in West Bengal as design partners. Deliver free pilot advisory in exchange for farm data and feedback.</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.8rem;">📱</div>
+                    <h3 style="justify-content: center;">Phase 2: WhatsApp / IVR Scale</h3>
+                    <p>Roll out AI advisory to all FPO member farmers via existing WhatsApp groups and IVR. Zero new hardware needed for the farmer.</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.8rem;">🏭</div>
+                    <h3 style="justify-content: center;">Phase 3: B2B Licensing</h3>
+                    <p>License the quality grading and supply chain OS to food processors (ITC, Nestle, export houses) seeking MRL-compliant supply.</p>
+                </div>
+            </div>
+            <p style="text-align:center; margin-top:1.2rem; font-size: 0.85rem; color: #94a3b8;"><strong style="color:#38ef7d;">Unfair Advantage:</strong> Our founders have deep local community trust and peer-reviewed scientific credibility — impossible to buy or replicate quickly.</p>
+        </div>
+    </section>
+
+    <!-- Slide 8: Competitive Landscape -->
+    <section class="slide">
+        <div class="content">
+            <h2>Competitive Landscape</h2>
+            <p class="subtitle">We are "Integrative-First" specialists — not generalist platforms.</p>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>🆚 vs. Generic Agritech (DeHaat, AgriBazaar)</h3>
+                    <ul>
+                        <li>They offer <em>marketplace + generic advisory</em>. We offer <em>molecular-precision intelligence</em>.</li>
+                        <li>They build asset-heavy warehouses. We build algorithms and APIs.</li>
+                        <li>Their advice: "Use Fertilizer X." Our advice: "Your soil has <em>Fusarium</em> pathogen — spray targeted bio-fungicide at dawn on Tuesday."</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🔒 Our Moat</h3>
+                    <ul>
+                        <li><strong>Proprietary Data:</strong> Molecular soil and crop data is not available anywhere else — we create it.</li>
+                        <li><strong>Dual-PhD Synergy:</strong> The combination of Computational Math + Molecular Biology is extremely rare and hard to replicate.</li>
+                        <li><strong>Local Trust:</strong> Deep roots in rural Bengal — built over years, not months.</li>
+                        <li><strong>Scientific Defensibility:</strong> Peer-reviewed research at our core, not just an app.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9: The Team -->
+    <section class="slide">
+        <div class="content">
+            <h2>The Team</h2>
+            <p class="subtitle">A rare synergy: The "How" (Math) + The "Why" (Biology) + The "Who" (Local Trust).</p>
+            <div class="grid-2" style="margin-bottom:1.5rem;">
+                <div class="card" style="display: flex; gap: 1rem; align-items: flex-start;">
+                    <div style="width:70px; height:70px; border-radius:50%; background:rgba(56,239,125,0.1); border:2px solid #38ef7d; display:flex; align-items:center; justify-content:center; font-size:2rem; flex-shrink:0;">👤</div>
+                    <div>
+                        <p style="font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 4px;">Dr. Rajkrishna Mondal</p>
+                        <p style="color: #38ef7d; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">Co-Founder · AI &amp; Mathematics</p>
+                        <p style="font-size: 0.85rem; color: #94a3b8;">PhD in Computational Mathematics. Senior Prompt Engineer building enterprise Agentic AI systems. Architect of URBARA's fuzzy-logic decision models and GxE optimization engine.</p>
+                    </div>
+                </div>
+                <div class="card" style="display: flex; gap: 1rem; align-items: flex-start;">
+                    <div style="width:70px; height:70px; border-radius:50%; background:rgba(17,212,196,0.1); border:2px solid #11d4c4; display:flex; align-items:center; justify-content:center; font-size:2rem; flex-shrink:0;">🌿</div>
+                    <div>
+                        <p style="font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 4px;">Bidisha Bhowal</p>
+                        <p style="color: #11d4c4; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">Co-Founder · Plant Molecular Biology</p>
+                        <p style="font-size: 0.85rem; color: #94a3b8;">PhD in Biotechnology (ICGEB). Computational biologist with expertise in plant-pathogen interactions and soil microbiome research. Ensures every recommendation is biologically defensible.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="text-align:center; padding:1rem;">
+                <p>🏛️ <strong>Seeking Advisors:</strong> Domain experts in Agronomy, Food Processing Supply Chain, and Agricultural Policy to join our advisory board.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: The Ask -->
+    <section class="slide">
+        <div class="content" style="text-align:center;">
+            <h2>The Ask</h2>
+            <p class="subtitle">We are in the Ideation Phase — seeking the right partners to build this right.</p>
+            <div class="grid-3" style="margin-bottom:1.5rem;">
+                <div class="stat-box">
+                    <div style="font-size:2rem; margin-bottom:0.5rem;">🏛️</div>
+                    <h4 style="font-size:1rem; color:#38ef7d; margin-bottom:0.5rem;">Incubation Support</h4>
+                    <p>FIIT-IITD or equivalent incubator for mentorship, network access, and institutional credibility.</p>
+                </div>
+                <div class="stat-box">
+                    <div style="font-size:2rem; margin-bottom:0.5rem;">🔬</div>
+                    <h4 style="font-size:1rem; color:#11d4c4; margin-bottom:0.5rem;">R&amp;D Infrastructure</h4>
+                    <p>Access to Bio-Lab facilities (ICAR / IARI) for soil microbiome testing and crop pathogen profiling.</p>
+                </div>
+                <div class="stat-box">
+                    <div style="font-size:2rem; margin-bottom:0.5rem;">📋</div>
+                    <h4 style="font-size:1rem; color:#f59e0b; margin-bottom:0.5rem;">Grant Guidance</h4>
+                    <p>Mentorship on applying for non-dilutive R&amp;D grants: BIRAC BIG, NIDHI-PRAYAS, MeiTY, DST-NSTEDB.</p>
+                </div>
+            </div>
+            <div class="card" style="max-width:600px; margin:0 auto;">
+                <p style="margin-bottom:1rem;"><strong>With this support, in 12 months we will:</strong></p>
+                <ul style="text-align:left;">
+                    <li>Complete pilot testing on 50 farms with validated data.</li>
+                    <li>Deploy V1 AI advisory to 200+ farmers via WhatsApp.</li>
+                    <li>File for at least one technology patent.</li>
+                    <li>Secure our first non-dilutive government grant.</li>
+                </ul>
+                <div style="margin-top:1.2rem;">
+                    <a href="urbara_contact.html" style="background: #38ef7d; color: #061a10; padding: 12px 30px; text-decoration: none; border-radius: 30px; font-weight: 800; font-size: 1rem; display: inline-block;">Partner With URBARA →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script src="assets/footer.js"></script>
+</body>
+</html>
+
+    <!-- Slide 1: The Hook (Title Slide) -->
+    <section class="slide">
+        <div class="content" style="text-align: center;">
+            <img src="assets/logo_tag.png" alt="URBARA Brand Logo" style="width: clamp(200px, 35vw, 380px); max-width: 100%; height: auto; margin-bottom: 1rem; animation: float 6s ease-in-out infinite; filter: drop-shadow(0 0 30px rgba(56, 239, 125, 0.2));">
+            <h1 style="font-size: clamp(28px, 6vw, 42px); line-height: 1.1; margin-bottom: 14px; letter-spacing: -0.02em; background: none; -webkit-text-fill-color: initial;">
+                <span style="background: linear-gradient(90deg, #38ef7d 0%, #11d4c4 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AI + Biology + Mathematics</span>
+            </h1>
+            <p class="subtitle" style="font-size: clamp(13px, 2.5vw, 15px); line-height: 1.4; color: #94a3b8; margin-bottom: 1rem; text-transform: none; font-weight: normal; letter-spacing: normal;">To fix Indian Farming | From Soil to Market.</p>
+            
+            <div class="card" style="display: inline-block; text-align: center; margin-top: 0.5rem; padding: 1rem 2rem;">
+                <p style="margin-bottom: 10px;"><strong>Dr. Rajkrishna Mondal</strong> & <strong>Bidisha Bhowal</strong></p>
+                <a href="mailto:rajkrishna.math@gmail.com" style="color: var(--accent-green); text-decoration: none; font-size: 0.9rem;">rajkrishna.math@gmail.com</a>
+            </div>
+        </div>
+        <div class="scroll-hint">↓ Scroll to Pitch ↓</div>
+        <div class="slide-counter">1 / 10</div>
+    </section>
+
+    <!-- Slide 2: The Problem -->
+    <section class="slide">
+        <div class="content">
+            <h2>The Problem</h2>
+            <p class="subtitle">Systemic inefficiencies destroying agricultural value.</p>
+            
+            <div class="grid-3">
+                <div class="card">
+                    <h3 style="color: #ef4444;">1. The Pain Point</h3>
+                    <p>Current farming relies on generic advice and blanket chemical spraying, destroying soil microbiomes and increasing input costs.</p>
+                </div>
+                <div class="card">
+                    <h3 style="color: #ef4444;">2. The Scope</h3>
+                    <p>Smallholder farmers suffer up to 30% post-harvest loss due to fragmented logistics and lack of direct market linkages.</p>
+                </div>
+                <div class="card">
+                    <h3 style="color: #ef4444;">3. Current Alternatives</h3>
+                    <p>Existing AgriTech solutions act purely as digital marketplaces (middlemen), failing to solve the root biological and operational inefficiencies at the farm level.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-counter">2 / 10</div>
+    </section>
+
+    <!-- Slide 3: The Solution -->
+    <section class="slide">
+        <div class="content">
+            <h2>The Solution</h2>
+            <p class="subtitle">The Phygital Agri-OS: Molecular Precision + Agentic AI</p>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3>The "Aha!" Moment</h3>
+                    <p>By replacing guesswork with peer-reviewed biological data and AI optimization, we offer an end-to-end "OS" for agriculture—from soil testing to market sales.</p>
+                </div>
+                <div class="card">
+                    <h3>The Value Prop</h3>
+                    <p>We combine deep-tech agronomy with robotic interventions (drone spraying) to drastically cut chemical usage and boost yields, securing premium prices through traceable quality.</p>
+                </div>
+            </div>
+
+            <div class="grid-3" style="margin-top: 1.5rem;">
+                <div class="stat-box">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🌱</div>
+                    <p><strong>Bio-Diagnostics:</strong> Microbiome testing & disease prediction.</p>
+                </div>
+                <div class="stat-box">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🤖</div>
+                    <p><strong>Agentic AI:</strong> Hyper-local crop rotation & spraying advisory.</p>
+                </div>
+                <div class="stat-box">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">📊</div>
+                    <p><strong>Supply Chain Math:</strong> Quality grading & e-NAM market integration.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-counter">3 / 10</div>
+    </section>
+
+    <!-- Slide 4: Market Size & Opportunity -->
+    <section class="slide">
+        <div class="content">
+            <h2>Market Opportunity</h2>
+            <p class="subtitle">Targeting the heart of the global agrarian economy</p>
+            
+            <table class="table-custom" style="background: rgba(15, 23, 42, 0.6); border-radius: 12px; overflow: hidden; backdrop-filter: blur(10px);">
+                <tr style="background: rgba(56, 239, 125, 0.1);">
+                    <th>Market Metric</th>
+                    <th>What it Means for URBARA</th>
+                    <th>Our Focus Area</th>
+                </tr>
+                <tr>
+                    <td><strong>TAM</strong> <br><span style="font-size:0.8rem; color:var(--text-muted);">Total Addressable Market</span></td>
+                    <td>Global demand for Agritech solutions and deep-tech farming OS.</td>
+                    <td>Booming global demand for MRL-compliant, traceable premium produce.</td>
+                </tr>
+                <tr>
+                    <td><strong>SAM</strong> <br><span style="font-size:0.8rem; color:var(--text-muted);">Serviceable Addressable Market</span></td>
+                    <td>Indian smallholders transitioning to modern, tech-enabled agriculture.</td>
+                    <td>The vast majority of Indian farmers who are currently underserved by tech.</td>
+                </tr>
+                <tr>
+                    <td><strong>SOM</strong> <br><span style="font-size:0.8rem; color:var(--text-muted);">Serviceable Obtainable Market</span></td>
+                    <td>Progressive organizations ready for immediate tech integration.</td>
+                    <td>FPOs (Farmer Producer Organizations) and B2B Food Processors.</td>
+                </tr>
+            </table>
+        </div>
+        <div class="slide-counter">4 / 10</div>
+    </section>
+
+    <!-- Slide 5: Business Model -->
+    <section class="slide">
+        <div class="content">
+            <h2>Business Model</h2>
+            <p class="subtitle">How we capture value (Asset-Light & Scalable)</p>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Revenue Streams</h3>
+                    <ul>
+                        <li><strong>RaaS (Robotics-as-a-Service):</strong> Recurring per-acre fees for drone spraying and IoT sensor deployment.</li>
+                        <li><strong>SaaS / API Licensing:</strong> Quality grading and supply-chain OS licensed to existing B2B agribusinesses.</li>
+                        <li><strong>Boutique Consulting:</strong> High-margin advisory for "Zero-Residue" export markets.</li>
+                        <li><strong>Produce Aggregation:</strong> Margins from linking quality-certified crops directly to FMCGs.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Pricing Strategy & Economics</h3>
+                    <ul>
+                        <li><strong>Subscription Base:</strong> Low barrier to entry for farmers via FPO collective subscriptions.</li>
+                        <li><strong>Outcome-Based:</strong> Taking a percentage cut of the premium secured for FPOs via our quality certification at mandis.</li>
+                        <li><strong>Zero Warehouse Capex:</strong> We are the intelligence layer, avoiding heavy physical infrastructure costs.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-counter">5 / 10</div>
+    </section>
+
+    <!-- Slide 6: Market Traction -->
+    <section class="slide">
+        <div class="content">
+            <h2>Market Traction (Ideation Phase)</h2>
+            <p class="subtitle">Laying the scientific and computational groundwork</p>
+            
+            <div class="grid-3">
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🔬</div>
+                    <h3 style="justify-content: center;">Biological Validation</h3>
+                    <p>Protocols established for soil microbiome testing and disease prediction models based on peer-reviewed biological data.</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">💻</div>
+                    <h3 style="justify-content: center;">Algorithmic Core</h3>
+                    <p>Fuzzy logic and Agentic AI models designed for hyper-local GxE (Genotype x Environment) crop rotation prescriptions.</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🤝</div>
+                    <h3 style="justify-content: center;">Ecosystem Readiness</h3>
+                    <p>Infrastructure primed to leverage the Indian government's AgriStack (70M+ Farmer IDs) and e-NAM integrations.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-counter">6 / 10</div>
+    </section>
+
+    <!-- Slide 7: Go-To-Market Strategy -->
+    <section class="slide">
+        <div class="content">
+            <h2>Marketing & Growth Strategy</h2>
+            <p class="subtitle">How we acquire and scale our customer base</p>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Acquisition Channels</h3>
+                    <ul>
+                        <li><strong>B2B Partnerships:</strong> Direct onboarding of FPOs (Farmer Producer Organizations) for collective impact.</li>
+                        <li><strong>API Integrations:</strong> Embedding our grading logic into existing Agribusiness and FMCG procurement pipelines.</li>
+                        <li><strong>Rural Accessibility:</strong> WhatsApp and IVR-first advisory delivery in local dialects to bypass app-fatigue.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Our Unfair Advantage</h3>
+                    <ul>
+                        <li><strong>The Deep-Tech Synergy:</strong> Our unique combination of Computational Mathematics and Plant Molecular Biology.</li>
+                        <li><strong>"Intel Inside" Strategy:</strong> We don't compete with marketplaces; we provide the molecular intelligence they rely on to function better.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-counter">7 / 10</div>
+    </section>
+
+    <!-- Slide 8: Competitive Landscape -->
+    <section class="slide">
+        <div class="content">
+            <h2>Competitive Landscape</h2>
+            <p class="subtitle">Generalists vs. Specialists</p>
+            
+            <table class="table-custom" style="background: rgba(15, 23, 42, 0.6); border-radius: 12px; overflow: hidden; backdrop-filter: blur(10px);">
+                <tr style="background: rgba(56, 239, 125, 0.1);">
+                    <th>Feature</th>
+                    <th style="color: #ef4444;">Generalists (e.g., DeHaat)</th>
+                    <th style="color: var(--accent-green);">URBARA (The Specialist)</th>
+                </tr>
+                <tr>
+                    <td><strong>Data Source</strong></td>
+                    <td>General Satellite / Manual Input</td>
+                    <td>IoT + Molecular Soil Bio-Data + Math Models</td>
+                </tr>
+                <tr>
+                    <td><strong>Advisory Approach</strong></td>
+                    <td>Generic: "Use Fertilizer X"</td>
+                    <td>Precise: "Based on pathogen DNA, spray at 4 AM"</td>
+                </tr>
+                <tr>
+                    <td><strong>Market Focus</strong></td>
+                    <td>Domestic Bulk (Volume)</td>
+                    <td>Premium B2B / Export / Pharma-grade (Margin)</td>
+                </tr>
+                <tr>
+                    <td><strong>Infrastructure</strong></td>
+                    <td>Asset-Heavy (Warehouses)</td>
+                    <td>Asset-Light (Algorithms & APIs)</td>
+                </tr>
+            </table>
+            
+            <div style="margin-top: 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+                <strong>Our Moat:</strong> Proprietary AI models trained on specific bio-molecular data that competitors cannot easily replicate.
+            </div>
+        </div>
+        <div class="slide-counter">8 / 10</div>
+    </section>
+
+    <!-- Slide 9: The Team -->
+    <section class="slide">
+        <div class="content">
+            <h2>The Team</h2>
+            <p class="subtitle">The "Why Us" Factor: Bridging Deep Tech AI with Biological Science</p>
+            
+            <div class="grid-2">
+                <div class="card" style="display: flex; gap: 1rem; align-items: flex-start;">
+                    <div style="font-size: 3rem;">👤</div>
+                    <div>
+                        <h3 style="margin-bottom: 5px;">Dr. Rajkrishna Mondal</h3>
+                        <p style="color: var(--accent-green); font-weight: bold; font-size: 0.85rem; margin-bottom: 10px;">AI Researcher & Mathematician</p>
+                        <p style="font-size: 0.9rem;">PhD in Computational Mathematics. Senior Prompt Engineer building enterprise Agentic AI. Architect of URBARA's fuzzy-logic decision models.</p>
+                    </div>
+                </div>
+                
+                <div class="card" style="display: flex; gap: 1rem; align-items: flex-start;">
+                    <div style="font-size: 3rem;">🌿</div>
+                    <div>
+                        <h3 style="margin-bottom: 5px;">Bidisha Bhowal</h3>
+                        <p style="color: var(--accent-blue); font-weight: bold; font-size: 0.85rem; margin-bottom: 10px;">Plant Molecular Biologist</p>
+                        <p style="font-size: 0.9rem;">PhD in Biotechnology (ICGEB). Computational biologist bridging lab science with AI, ensuring every recommendation is biologically defensible.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-counter">9 / 10</div>
+    </section>
+
+    <!-- Slide 10: The Ask -->
+    <section class="slide">
+        <div class="content" style="text-align: center;">
+            <h2>The Ask & Next Steps</h2>
+            <p class="subtitle" style="margin-bottom: 2rem;">We are in the <strong>Ideation Phase</strong> and seeking early-stage support.</p>
+            
+            <div class="card" style="max-width: 700px; margin: 0 auto; text-align: left;">
+                <h3 style="justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem;">Our Funding Goal</h3>
+                
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent-green);">
+                        <strong>Incubation Support:</strong> Seeking incubation and strategic mentorship from <strong>FIIT-IITD</strong>.
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent-blue);">
+                        <strong>Resource Access:</strong> Access to Bio-Lab infrastructure (ICAR / IARI) and computing capabilities to build the MVP.
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                        <strong>18-Month Milestone:</strong> Secure early-stage non-dilutive R&D grants (BIRAC, MeiTY) and execute our first pilot with an FPO.
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="urbara_contact.html" style="background: var(--accent-green); color: var(--bg-dark); padding: 12px 30px; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 1.1rem; display: inline-block;">Partner With URBARA</a>
+                </div>
+            </div>
+        </div>
+        <div class="slide-counter">10 / 10</div>
+    </section>
+
+</div>
+
+</body>
+</html>
