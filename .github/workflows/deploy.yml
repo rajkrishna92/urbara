@@ -22,4 +22,4 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: 'urbara'
           directory: '.'
-          gitBranch: 'main'
+          branch: 'main'
