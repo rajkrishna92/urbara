@@ -64,31 +64,37 @@ document.addEventListener("DOMContentLoaded", () => {
     // 1. Inject the header at the very top of the body
     document.body.insertAdjacentHTML('afterbegin', headerHTML);
 
-    // 2. Determine which page is currently active
+    // 2. Determine which page is currently active (supporting both .html and pretty URLs)
     const currentPath = window.location.pathname;
     let pageName = currentPath.split("/").pop();
     
-    // Default to index.html if no file is specified (e.g. root domain)
-    if (!pageName || pageName === '') {
+    // Normalize pageName by removing the .html extension if present
+    if (pageName && pageName.endsWith('.html')) {
+        pageName = pageName.slice(0, -5);
+    }
+    
+    // Default to index if no file is specified (e.g. root domain or index)
+    if (!pageName || pageName === '' || pageName === 'index') {
+        pageName = 'index';
     }
 
-    // Map pages to their respective active navigation tab
+    // Map pages to their respective active navigation tab (without extensions)
     const activeMap = {
-        'index.html': 'home',
-        'urbara_pitchdeck.html': 'pitchdeck',
-        'urbara_business_model.html': 'business',
-        'urbara_channels.html': 'business',
-        'urbara_cost_structure.html': 'business',
-        'urbara_customer_relationships.html': 'business',
-        'urbara_customer_segments.html': 'business',
-        'urbara_key_activities.html': 'business',
-        'urbara_key_partnerships.html': 'business',
-        'urbara_key_resources.html': 'business',
-        'urbara_revenue_streams.html': 'business',
-        'urbara_value_propositions.html': 'business',
-        'urbara_process_flow.html': 'process',
-        'urbara_team.html': 'team',
-        'urbara_contact.html': 'contact'
+        'index': 'home',
+        'urbara_pitchdeck': 'pitchdeck',
+        'urbara_business_model': 'business',
+        'urbara_channels': 'business',
+        'urbara_cost_structure': 'business',
+        'urbara_customer_relationships': 'business',
+        'urbara_customer_segments': 'business',
+        'urbara_key_activities': 'business',
+        'urbara_key_partnerships': 'business',
+        'urbara_key_resources': 'business',
+        'urbara_revenue_streams': 'business',
+        'urbara_value_propositions': 'business',
+        'urbara_process_flow': 'process',
+        'urbara_team': 'team',
+        'urbara_contact': 'contact'
     };
 
     const activeSection = activeMap[pageName] || 'home';
