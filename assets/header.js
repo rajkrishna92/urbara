@@ -13,8 +13,8 @@ const headerHTML = `
         <a href="index.html" class="ur-hdr-link" data-nav="home">Home</a>
         <a href="urbara_pitchdeck.html" class="ur-hdr-link" data-nav="pitchdeck">Pitch Deck</a>
         <div class="ur-hdr-dropdown">
-          <a href="urbara_business_model.html" class="ur-hdr-link" data-nav="business">Business Model</a><!-- <span class="caret">▼</span>-->
-          <!-- <button type="button" class="ur-hdr-submenu-toggle" aria-expanded="false" aria-label="Toggle Business Model submenu">▾</button> 
+          <a href="urbara_business_model.html" class="ur-hdr-link" data-nav="business">Business Model</a> 
+           <button type="button" class="ur-hdr-submenu-toggle" aria-expanded="false" aria-label="Toggle Business Model submenu">▾</button> 
           <div class="ur-hdr-submenu">
             <a href="urbara_value_propositions.html">Value Propositions</a>
             <a href="urbara_customer_segments.html">Customer Segments</a>
@@ -25,7 +25,7 @@ const headerHTML = `
             <a href="urbara_revenue_streams.html">Revenue Streams</a>
             <a href="urbara_customer_relationships.html">Customer Relationships</a>
             <a href="urbara_channels.html">Channels</a>
-          </div>-->
+          </div>
         </div>
         <a href="urbara_process_flow.html" class="ur-hdr-link" data-nav="process">Process Flow</a>
         <a href="urbara_team.html" class="ur-hdr-link" data-nav="team">Team</a>
