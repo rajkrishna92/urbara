@@ -212,6 +212,22 @@
     background: #0f172a;
     border: 1px solid #1e293b;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .cell:hover {
+    transform: translateY(-6px) scale(1.025);
+    z-index: 10;
+  }
+
+  .cell:hover .deep-dive-btn {
+    background: rgba(56, 239, 125, 0.12);
+    border-color: rgba(56, 239, 125, 0.35);
+    color: #38ef7d;
   }
 
   .cell::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 12px 12px 0 0; }
@@ -227,46 +243,55 @@
   .kp::before { background: #3b82f6; box-shadow: 0 0 10px #3b82f6; }
   .kp .cell-head { color: #60a5fa; }
   .kp .dot { background: #3b82f6; box-shadow: 0 0 8px rgba(59,130,246,0.6); }
+  .kp:hover { border-color: rgba(59,130,246,0.7); box-shadow: 0 12px 28px rgba(0,0,0,0.6), 0 0 20px rgba(59,130,246,0.45); }
 
   .ka { background: linear-gradient(180deg, rgba(34,197,94,0.1) 0%, rgba(15,23,42,0) 100%); border-color: rgba(34,197,94,0.3); }
   .ka::before { background: #22c55e; box-shadow: 0 0 10px #22c55e; }
   .ka .cell-head { color: #4ade80; }
   .ka .dot { background: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.6); }
+  .ka:hover { border-color: rgba(34,197,94,0.7); box-shadow: 0 12px 28px rgba(0,0,0,0.6), 0 0 20px rgba(34,197,94,0.45); }
 
   .vp { background: linear-gradient(180deg, rgba(168,85,247,0.1) 0%, rgba(15,23,42,0) 100%); border-color: rgba(168,85,247,0.3); }
   .vp::before { background: #a855f7; box-shadow: 0 0 10px #a855f7; }
   .vp .cell-head { color: #c084fc; }
   .vp .dot { background: #a855f7; box-shadow: 0 0 8px rgba(168,85,247,0.6); }
+  .vp:hover { border-color: rgba(168,85,247,0.7); box-shadow: 0 12px 28px rgba(0,0,0,0.6), 0 0 20px rgba(168,85,247,0.45); }
 
   .cr { background: linear-gradient(180deg, rgba(244,63,94,0.1) 0%, rgba(15,23,42,0) 100%); border-color: rgba(244,63,94,0.3); }
   .cr::before { background: #f43f5e; box-shadow: 0 0 10px #f43f5e; }
   .cr .cell-head { color: #fb7185; }
   .cr .dot { background: #f43f5e; box-shadow: 0 0 8px rgba(244,63,94,0.6); }
+  .cr:hover { border-color: rgba(244,63,94,0.7); box-shadow: 0 12px 28px rgba(0,0,0,0.6), 0 0 20px rgba(244,63,94,0.45); }
 
   .cs { background: linear-gradient(180deg, rgba(20,184,166,0.1) 0%, rgba(15,23,42,0) 100%); border-color: rgba(20,184,166,0.3); }
   .cs::before { background: #14b8a6; box-shadow: 0 0 10px #14b8a6; }
   .cs .cell-head { color: #2dd4bf; }
   .cs .dot { background: #14b8a6; box-shadow: 0 0 8px rgba(20,184,166,0.6); }
+  .cs:hover { border-color: rgba(20,184,166,0.7); box-shadow: 0 12px 28px rgba(0,0,0,0.6), 0 0 20px rgba(20,184,166,0.45); }
 
   .kr { background: linear-gradient(180deg, rgba(234,179,8,0.1) 0%, rgba(15,23,42,0) 100%); border-color: rgba(234,179,8,0.3); }
   .kr::before { background: #eab308; box-shadow: 0 0 10px #eab308; }
   .kr .cell-head { color: #facc15; }
   .kr .dot { background: #eab308; box-shadow: 0 0 8px rgba(234,179,8,0.6); }
+  .kr:hover { border-color: rgba(234,179,8,0.7); box-shadow: 0 12px 28px rgba(0,0,0,0.6), 0 0 20px rgba(234,179,8,0.45); }
 
   .ch { background: linear-gradient(180deg, rgba(249,115,22,0.1) 0%, rgba(15,23,42,0) 100%); border-color: rgba(249,115,22,0.3); }
   .ch::before { background: #f97316; box-shadow: 0 0 10px #f97316; }
   .ch .cell-head { color: #fb923c; }
   .ch .dot { background: #f97316; box-shadow: 0 0 8px rgba(249,115,22,0.6); }
+  .ch:hover { border-color: rgba(249,115,22,0.7); box-shadow: 0 12px 28px rgba(0,0,0,0.6), 0 0 20px rgba(249,115,22,0.45); }
 
   .cost { background: linear-gradient(180deg, rgba(239,68,68,0.1) 0%, rgba(15,23,42,0) 100%); border-color: rgba(239,68,68,0.3); }
   .cost::before { background: #ef4444; box-shadow: 0 0 10px #ef4444; }
   .cost .cell-head { color: #f87171; }
   .cost .dot { background: #ef4444; box-shadow: 0 0 8px rgba(239,68,68,0.6); }
+  .cost:hover { border-color: rgba(239,68,68,0.7); box-shadow: 0 12px 28px rgba(0,0,0,0.6), 0 0 20px rgba(239,68,68,0.45); }
 
   .rev { background: linear-gradient(180deg, rgba(16,185,129,0.1) 0%, rgba(15,23,42,0) 100%); border-color: rgba(16,185,129,0.3); }
   .rev::before { background: #10b981; box-shadow: 0 0 10px #10b981; }
   .rev .cell-head { color: #34d399; }
   .rev .dot { background: #10b981; box-shadow: 0 0 8px rgba(16,185,129,0.6); }
+  .rev:hover { border-color: rgba(16,185,129,0.7); box-shadow: 0 12px 28px rgba(0,0,0,0.6), 0 0 20px rgba(16,185,129,0.45); }
 
   /* Grid definition */
   .vp { grid-column: 1 / 2; grid-row: 1; }
@@ -375,7 +400,6 @@
       border-radius: 16px;
       overflow: hidden;
       margin-bottom: 14px;
-      transition: background 0.25s ease, box-shadow 0.25s ease;
     }
     .mobile-break {
       display: block;
@@ -407,7 +431,7 @@
   <div class="grid">
 
     <!-- PRIORITY 1: CORE INNOVATION -->
-    <div class="cell vp">
+    <a href="urbara_value_propositions.html" class="cell vp">
       <div class="cell-head"><span class="emoji">💎</span> Value propositions <span class="p-badge p1">Priority 1</span>
       </div>
       <div class="item"><span class="dot"></span>🤖 Cutting-edge AI-enabled Agri solutions — from field to mandi</div>
@@ -436,10 +460,10 @@
           <div style="font-size:9px;color:var(--color-text-tertiary)">Agritech market size by 2026</div>
         </div>
       </div>
-      <!-- <a href="urbara_value_propositions.html" class="deep-dive-btn">🔍 Deep Dive: Value Propositions ➔</a> -->
-    </div>
+      <span class="deep-dive-btn">🔍 Deep Dive: Value Propositions ➔</span>
+    </a>
 
-    <div class="cell cs">
+    <a href="urbara_customer_segments.html" class="cell cs">
       <div class="cell-head"><span class="emoji">👥</span> Customer segments <span class="p-badge p1">Priority 1</span>
       </div>
       <div class="item"><span class="dot"></span>🌾 Smallholder Farmers — precision agronomy & yield uplift</div>
@@ -464,11 +488,11 @@
           <div style="font-size:9px;color:var(--color-text-tertiary)">Smallholders — underserved by tech</div>
         </div>
       </div>
-      <!-- <a href="urbara_customer_segments.html" class="deep-dive-btn">🔍 Deep Dive: Customer Segments ➔</a> -->
-    </div>
+      <span class="deep-dive-btn">🔍 Deep Dive: Customer Segments ➔</span>
+    </a>
 
     <!-- PRIORITY 2: EXECUTION & FEASIBILITY -->
-    <div class="cell kr">
+    <a href="urbara_key_resources.html" class="cell kr">
       <div class="cell-head"><span class="emoji">🏗️</span> Key resources <span class="p-badge p2">Priority 2</span>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 14px">
@@ -506,10 +530,10 @@
           <div style="font-size:9px;color:var(--color-text-tertiary)">Math + Plant Bio — core moat</div>
         </div>
       </div>
-      <!-- <a href="urbara_key_resources.html" class="deep-dive-btn">🔍 Deep Dive: Key Resources ➔</a> -->
-    </div>
+      <span class="deep-dive-btn">🔍 Deep Dive: Key Resources ➔</span>
+    </a>
 
-    <div class="cell ka">
+    <a href="urbara_key_activities.html" class="cell ka">
       <div class="cell-head"><span class="emoji">⚡</span> Key activities <span class="p-badge p2">Priority 2</span>
       </div>
       <div class="item"><span class="dot"></span>🌱 Soil health check incl. soil microbiome testing</div>
@@ -542,11 +566,11 @@
           <div style="font-size:9px;color:var(--color-text-tertiary)">Decision engine via Agentic AI</div>
         </div>
       </div>
-      <!-- <a href="urbara_key_activities.html" class="deep-dive-btn">🔍 Deep Dive: Key Activities ➔</a> -->
-    </div>
+      <span class="deep-dive-btn">🔍 Deep Dive: Key Activities ➔</span>
+    </a>
 
     <!-- PRIORITY 3: VALIDATION -->
-    <div class="cell kp">
+    <a href="urbara_key_partnerships.html" class="cell kp">
       <div class="cell-head"><span class="emoji">🤝</span> Key partnerships <span class="p-badge p3">Priority 3</span>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 18px">
@@ -588,11 +612,11 @@
       <span class="tag tag-purple">🔬 Research Institutes</span>
       <span class="tag tag-teal">🌾 Agri Networks</span>
       <span class="tag tag-pink">🛵 Micro Entrepreneurs</span>
-      <!-- <a href="urbara_key_partnerships.html" class="deep-dive-btn" style="margin-top: 18px;">🔍 Deep Dive: Key Partnerships ➔</a> -->
-    </div>
+      <span class="deep-dive-btn" style="margin-top: 18px;">🔍 Deep Dive: Key Partnerships ➔</span>
+    </a>
 
     <!-- PRIORITY 4: VIABILITY -->
-    <div class="cell cost">
+    <a href="urbara_cost_structure.html" class="cell cost">
       <div class="cell-head"><span class="emoji">💸</span> Cost structure <span class="p-badge p4">Priority 4</span></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 14px">
         <div>
@@ -627,10 +651,10 @@
           <div style="font-size:9px;color:var(--color-text-tertiary)">BIRAC, NIDHI, MeiTY Fund R&D costs</div>
         </div>
       </div>
-      <!-- <a href="urbara_cost_structure.html" class="deep-dive-btn">🔍 Deep Dive: Cost Structure ➔</a> -->
-    </div>
+      <span class="deep-dive-btn">🔍 Deep Dive: Cost Structure ➔</span>
+    </a>
 
-    <div class="cell rev">
+    <a href="urbara_revenue_streams.html" class="cell rev">
       <div class="cell-head"><span class="emoji">💰</span> Revenue streams <span class="p-badge p4">Priority 4</span></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 14px">
         <div>
@@ -666,11 +690,11 @@
           <div style="font-size:9px;color:var(--color-text-tertiary)">Grant-funded early R&D phase</div>
         </div>
       </div>
-      <!-- <a href="urbara_revenue_streams.html" class="deep-dive-btn">🔍 Deep Dive: Revenue Streams ➔</a> -->
-    </div>
+      <span class="deep-dive-btn">🔍 Deep Dive: Revenue Streams ➔</span>
+    </a>
 
     <!-- PRIORITY 5: GO-TO-MARKET -->
-    <div class="cell cr">
+    <a href="urbara_customer_relationships.html" class="cell cr">
       <div class="cell-head"><span class="emoji">💬</span> Customer relationships <span class="p-badge p5">Priority 5</span></div>
       <div class="item"><span class="dot"></span>🤝 Specialist "Surgeon" B2B advisory relationships with FPOs & agribusinesses</div>
       <div class="item"><span class="dot"></span>📈 Success-based profit sharing — aligned to farmer outcomes</div>
@@ -697,10 +721,10 @@
           <div style="font-size:9px;color:var(--color-text-tertiary)">Paid on farmer success, not effort</div>
         </div>
       </div>
-      <!-- <a href="urbara_customer_relationships.html" class="deep-dive-btn">🔍 Deep Dive: Customer Relationships ➔</a> -->
-    </div>
+      <span class="deep-dive-btn">🔍 Deep Dive: Customer Relationships ➔</span>
+    </a>
 
-    <div class="cell ch">
+    <a href="urbara_channels.html" class="cell ch">
       <div class="cell-head"><span class="emoji">📡</span> Channels <span class="p-badge p5">Priority 5</span></div>
       <div class="item"><span class="dot"></span>🏘️ FPO & NABARD cooperative networks — collective reach</div>
       <div class="item"><span class="dot"></span>🤖 AI-OS API integration for existing bulk agri-platforms</div>
@@ -728,8 +752,8 @@
           <div style="font-size:9px;color:var(--color-text-tertiary)">Farmer-first mobile booking</div>
         </div>
       </div>
-      <!-- <a href="urbara_channels.html" class="deep-dive-btn">🔍 Deep Dive: Channels ➔</a> -->
-    </div>
+      <span class="deep-dive-btn">🔍 Deep Dive: Channels ➔</span>
+    </a>
 
   </div>
 </div>
