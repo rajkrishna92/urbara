@@ -2,7 +2,7 @@ const headerHTML = `
   <header class="ur-hdr-main">
     <nav class="ur-hdr-nav">
       <a href="index.html" class="ur-hdr-brand">
-        <img src="assets/logo_transparent.png" alt="URBARA Logo" class="ur-hdr-icon">
+        <img src="assets/logo_transparant.png" alt="URBARA Logo" class="ur-hdr-icon">
         <div class="ur-hdr-text">
           <div class="ur-hdr-title">URBARA <span class="sep">|</span> <span class="lang">उर्वरा</span> <span class="sep">|</span> <span class="lang">উর্বরা</span></div>
           <div class="ur-hdr-tag">Rooted in Science · Backed by AI</div>
